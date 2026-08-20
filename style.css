@@ -1,0 +1,310 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-dark: #06080d;
+    --card-bg: rgba(18, 22, 30, 0.75);
+    --card-border: rgba(255, 255, 255, 0.06);
+    --text-main: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-soft: #c9d1d9;
+    --rose: #ff4b72;
+    --rose-light: #ff6b8a;
+    --rose-glow: rgba(255, 75, 114, 0.25);
+    --purple: #a855f7;
+    --purple-glow: rgba(168, 85, 247, 0.2);
+    --gold: #f59e0b;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+/* ── Ambient Background ── */
+.ambient-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.stars-container { position: fixed; inset: 0; }
+.floating-hearts { position: fixed; inset: 0; overflow: hidden; }
+
+.glow-orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; }
+.orb-1 { width: 400px; height: 400px; background: var(--rose-glow); top: 5%; left: -5%; animation: orbFloat1 12s ease-in-out infinite; }
+.orb-2 { width: 450px; height: 450px; background: var(--purple-glow); bottom: 10%; right: -8%; animation: orbFloat2 15s ease-in-out infinite; }
+.orb-3 { width: 300px; height: 300px; background: rgba(245, 158, 11, 0.1); top: 50%; left: 40%; animation: orbFloat3 18s ease-in-out infinite; }
+
+@keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+@keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,-40px)} }
+@keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-50px)} }
+
+/* ── Intro Splash ── */
+.intro-splash {
+    position: fixed; inset: 0; z-index: 1000;
+    background: radial-gradient(circle at center, #0f1118 0%, #06080d 100%);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.intro-splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.splash-content { text-align: center; }
+.heartbeat-icon { font-size: 4rem; animation: heartPulse 1.2s ease-in-out infinite; }
+@keyframes heartPulse { 0%,100%{transform:scale(1)} 15%{transform:scale(1.25)} 30%{transform:scale(1)} 45%{transform:scale(1.15)} 60%{transform:scale(1)} }
+
+.splash-text { font-size: 1.1rem; color: var(--text-muted); margin: 20px 0 30px; font-style: italic; }
+
+.splash-btn {
+    background: linear-gradient(135deg, var(--rose), #c0254a);
+    color: #fff; border: none; padding: 16px 40px; font-size: 1.05rem;
+    font-weight: 600; border-radius: 50px; cursor: pointer;
+    box-shadow: 0 0 30px var(--rose-glow), 0 8px 20px rgba(0,0,0,0.4);
+    transition: all 0.3s ease; font-family: inherit;
+}
+.splash-btn:hover { transform: scale(1.06); box-shadow: 0 0 50px var(--rose-glow); }
+
+/* ── Main Layout ── */
+.letter-wrapper {
+    max-width: 700px; margin: 0 auto; position: relative; z-index: 1;
+    padding: 50px 20px 80px; opacity: 0;
+    transition: opacity 0.6s ease 0.3s;
+}
+.letter-wrapper.visible { opacity: 1; }
+
+/* ── Reveal Animation ── */
+.reveal-item { opacity: 0; transform: translateY(35px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-item.revealed { opacity: 1; transform: translateY(0); }
+
+/* ── Hero ── */
+.hero { text-align: center; margin-bottom: 45px; }
+.hero-badge-wrap { margin-bottom: 18px; }
+.badge {
+    background: rgba(255,75,114,0.1); color: var(--rose); padding: 7px 20px;
+    border-radius: 24px; font-size: 0.85rem; font-weight: 600;
+    display: inline-block; border: 1px solid rgba(255,75,114,0.2);
+}
+.pulse-badge { animation: badgePulse 3s ease-in-out infinite; }
+@keyframes badgePulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,75,114,0.3)} 50%{box-shadow:0 0 0 12px rgba(255,75,114,0)} }
+
+.hero-title {
+    font-family: 'Caveat', cursive; font-size: 3.8rem; color: #fff;
+    min-height: 1.2em; margin-bottom: 8px;
+}
+.hero-title .cursor-blink { animation: blink 0.8s step-end infinite; color: var(--rose); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-subtitle-wrap { margin-bottom: 25px; }
+.hero-subtitle { font-size: 0.95rem; color: var(--text-muted); font-style: italic; }
+
+.why-note {
+    background: rgba(255,255,255,0.03); border-left: 3px solid var(--rose);
+    padding: 18px 20px; border-radius: 10px; text-align: left;
+    display: flex; gap: 14px; align-items: flex-start;
+}
+.why-note-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.why-note p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; }
+
+/* ── Core Quote ── */
+.core-statement {
+    background: linear-gradient(135deg, rgba(255,75,114,0.12), rgba(168,85,247,0.12));
+    border: 1px solid rgba(255,75,114,0.25); border-radius: 20px;
+    padding: 35px 30px; margin-bottom: 40px; text-align: center;
+    position: relative; overflow: hidden;
+    backdrop-filter: blur(12px);
+}
+.quote-glow {
+    position: absolute; top: 50%; left: 50%; width: 200px; height: 200px;
+    background: radial-gradient(circle, var(--rose-glow) 0%, transparent 70%);
+    transform: translate(-50%,-50%); pointer-events: none;
+}
+.quote-marks { font-family: 'Caveat',cursive; font-size: 4rem; color: var(--rose); opacity: 0.4; line-height: 0.5; }
+.quote-marks.end { text-align: right; }
+.highlight-quote { font-size: 1.15rem; font-weight: 500; color: #fff; font-style: italic; position: relative; z-index: 1; padding: 10px 0; }
+.zero-text { font-size: 1.5rem; font-weight: 700; color: var(--rose); text-shadow: 0 0 20px var(--rose-glow); }
+
+.heartbeat-line { margin-top: 20px; overflow: hidden; }
+.heartbeat-svg { width: 100%; max-width: 350px; margin: 0 auto; display: block; }
+.heartbeat-path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawLine 3s ease forwards 1s; }
+@keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+/* ── Emotion Cards ── */
+.emotion-timeline { display: flex; flex-direction: column; gap: 24px; margin-bottom: 50px; }
+
+.emotion-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 18px; padding: 28px; position: relative; overflow: hidden;
+    backdrop-filter: blur(12px); transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.emotion-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,75,114,0.3);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.card-glow-edge {
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--rose), var(--purple), transparent);
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.emotion-card:hover .card-glow-edge { opacity: 1; }
+
+.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.card-emoji { font-size: 1.6rem; }
+.card-header h3 { font-size: 1.2rem; color: #fff; font-weight: 600; }
+.card-body p { font-size: 0.95rem; color: var(--text-soft); margin-bottom: 12px; }
+.card-body p:last-child { margin-bottom: 0; }
+.card-body em { color: var(--rose-light); font-style: italic; }
+.card-body strong { color: #fff; }
+.card-whisper { color: var(--rose) !important; font-weight: 600; font-size: 0.9rem !important; margin-top: 14px !important; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+.priority-text { color: var(--gold) !important; font-weight: 600; }
+
+/* ── Open When Section ── */
+.open-when-section { margin-bottom: 50px; text-align: center; }
+.section-title { font-family: 'Caveat',cursive; font-size: 2.4rem; color: var(--rose-light); margin-bottom: 6px; }
+.section-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; font-style: italic; }
+
+.open-when-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.open-when-card {
+    perspective: 800px; cursor: pointer; min-height: 200px;
+}
+.open-when-card .owc-front, .open-when-card .owc-back {
+    border-radius: 16px; padding: 24px 18px; backface-visibility: hidden;
+    transition: transform 0.6s ease; position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.open-when-card { position: relative; }
+.owc-front {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    z-index: 2;
+}
+.owc-back {
+    background: linear-gradient(135deg, rgba(255,75,114,0.15), rgba(168,85,247,0.15));
+    border: 1px solid rgba(255,75,114,0.3);
+    transform: rotateY(180deg); z-index: 1;
+}
+.open-when-card.flipped .owc-front { transform: rotateY(180deg); }
+.open-when-card.flipped .owc-back { transform: rotateY(0deg); }
+
+.owc-emoji { font-size: 2rem; margin-bottom: 10px; }
+.owc-front p { font-size: 0.88rem; color: var(--text-soft); line-height: 1.5; }
+.owc-tap { font-size: 0.75rem; color: var(--text-muted); margin-top: 12px; opacity: 0.6; }
+.owc-back p { font-size: 0.85rem; color: var(--text-soft); line-height: 1.6; text-align: center; }
+
+/* ── Promise Section ── */
+.promise-section { margin-bottom: 50px; }
+.promise-card {
+    background: rgba(255,75,114,0.05); border: 1px solid rgba(255,75,114,0.3);
+    border-radius: 20px; padding: 35px 28px; text-align: center; position: relative; overflow: hidden;
+}
+.promise-glow {
+    position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 200px;
+    background: radial-gradient(ellipse, rgba(255,75,114,0.15), transparent 70%);
+    pointer-events: none;
+}
+.promise-emoji { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+.promise-card h3 { font-family: 'Caveat',cursive; font-size: 1.8rem; color: #fff; margin-bottom: 6px; }
+.promise-divider { width: 60px; height: 2px; background: var(--rose); margin: 14px auto 20px; border-radius: 2px; }
+.promise-bold { font-weight: 700; color: #fff; font-size: 1.05rem; line-height: 1.9; margin-bottom: 16px; }
+.promise-card p { font-size: 0.95rem; color: var(--text-soft); margin-bottom: 14px; }
+.promise-plea { font-style: italic; color: var(--text-muted) !important; }
+
+/* ── Flight Section ── */
+.flight-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 20px; padding: 30px 28px; text-align: center;
+    margin-bottom: 50px;
+}
+.flight-icon { font-size: 2.5rem; margin-bottom: 10px; animation: flyPlane 4s ease-in-out infinite; }
+@keyframes flyPlane { 0%,100%{transform:translateX(0) rotate(0)} 50%{transform:translateX(10px) rotate(-5deg)} }
+.flight-card h3 { font-family: 'Caveat',cursive; font-size: 1.8rem; color: #fff; margin-bottom: 18px; }
+.flight-details { text-align: left; max-width: 400px; margin: 0 auto 18px; }
+.flight-details p { font-size: 0.92rem; color: var(--text-soft); padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.flight-proud { color: var(--rose-light) !important; font-weight: 600; font-size: 1rem; }
+
+/* ── Footer ── */
+.footer-section { text-align: center; padding: 40px 0 20px; position: relative; }
+.footer-hearts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+.footer-title {
+    font-family: 'Caveat',cursive; font-size: 3rem; margin-bottom: 14px;
+    background: linear-gradient(135deg, var(--rose), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.footer-text { color: var(--text-muted); font-size: 1rem; margin-bottom: 35px; line-height: 2; }
+
+/* Hug Button */
+.hug-btn {
+    position: relative; background: linear-gradient(135deg, var(--rose), #c0254a);
+    color: #fff; border: none; padding: 18px 40px; font-size: 1.05rem;
+    font-weight: 600; border-radius: 50px; cursor: pointer;
+    font-family: inherit; overflow: hidden;
+    box-shadow: 0 0 30px var(--rose-glow); transition: all 0.3s ease;
+}
+.hug-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--rose-glow); }
+.hug-btn-glow {
+    position: absolute; inset: -2px; border-radius: 52px;
+    background: linear-gradient(45deg, var(--rose), var(--purple), var(--rose));
+    background-size: 300% 300%; z-index: -1;
+    animation: glowRotate 3s linear infinite;
+}
+@keyframes glowRotate { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+.hug-btn.clicked { opacity: 0.5; pointer-events: none; transform: scale(0.95); }
+
+.hug-response {
+    display: none; margin-top: 30px;
+    animation: hugFadeIn 0.8s ease forwards;
+}
+.hug-response.show { display: block; }
+.hug-response-content {
+    background: linear-gradient(135deg, rgba(255,75,114,0.12), rgba(168,85,247,0.12));
+    border: 1px solid rgba(255,75,114,0.3); border-radius: 20px;
+    padding: 30px 24px; position: relative; overflow: hidden;
+}
+.hug-message { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.hug-sub { font-size: 0.95rem; color: var(--text-soft); line-height: 1.9; }
+
+@keyframes hugFadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* Confetti */
+.confetti-piece {
+    position: fixed; width: 8px; height: 8px; z-index: 2000;
+    pointer-events: none; border-radius: 2px;
+    animation: confettiFall 2.5s ease-out forwards;
+}
+@keyframes confettiFall {
+    0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}
+    100%{opacity:0;transform:translateY(100vh) rotate(720deg) scale(0.3)}
+}
+
+/* Signature */
+.signature { margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+.signature p { color: var(--text-muted); font-size: 0.9rem; }
+.signature-name { font-family: 'Caveat',cursive; font-size: 2rem; color: var(--rose) !important; margin-top: 4px; }
+
+/* ── Stars Twinkle ── */
+@keyframes twinkle { 0%,100%{opacity:0.15} 50%{opacity:0.85} }
+
+/* ── Floating Hearts ── */
+.float-heart {
+    position: absolute; bottom: -30px; font-size: 1rem; opacity: 0;
+    animation: floatUp linear forwards; pointer-events: none;
+}
+@keyframes floatUp {
+    0%{opacity:0;transform:translateY(0) scale(0.5) rotate(0deg)}
+    20%{opacity:0.7}
+    80%{opacity:0.4}
+    100%{opacity:0;transform:translateY(-100vh) scale(1) rotate(25deg)}
+}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+    .hero-title{font-size:2.8rem}
+    .footer-title{font-size:2.4rem}
+    .open-when-grid{grid-template-columns:1fr}
+    .core-statement{padding:25px 20px}
+    .promise-card{padding:28px 20px}
+    .section-title{font-size:2rem}
+}
