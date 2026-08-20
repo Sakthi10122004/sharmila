@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Twinkling Stars (soft pastel dots) ──
+    // ── Pastel Stars ──
     const starsC = document.getElementById('starsContainer');
-    const starColors = ['#f9a8d4','#a5f3fc','#c4b5fd','#fde68a'];
-    for (let i = 0; i < 55; i++) {
+    const sColors = ['#f9a8d4','#a5f3fc','#c4b5fd','#fde68a','#fbcfe8'];
+    for (let i = 0; i < 60; i++) {
         const s = document.createElement('div');
         const sz = Math.random() * 3 + 1;
         Object.assign(s.style, {
             position:'absolute', width:sz+'px', height:sz+'px',
-            background: starColors[Math.floor(Math.random()*starColors.length)],
+            background: sColors[Math.floor(Math.random()*sColors.length)],
             borderRadius:'50%',
             top: Math.random()*100+'%', left: Math.random()*100+'%',
             opacity: Math.random()*0.4+0.1,
@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
         starsC.appendChild(s);
     }
 
-    // ── Floating Elements (hearts & petals) ──
+    // ── Floating Petals & Hearts ──
     const floatC = document.getElementById('floatingElements');
-    const symbols = ['♥','🌸','💗','✨','🩷','🤍','💐'];
+    const symbols = ['♥','🌸','💗','✨','🩷','🤍','💐','🌷'];
     function spawnFloat() {
         const el = document.createElement('div');
         el.className = 'float-heart';
@@ -30,22 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
         floatC.appendChild(el);
         setTimeout(() => el.remove(), 18000);
     }
-    setInterval(spawnFloat, 2800);
+    setInterval(spawnFloat, 2500);
     for (let i = 0; i < 4; i++) setTimeout(spawnFloat, i*500);
 
-    // ── Envelope Opening Animation ──
+    // ── Envelope + Splash ──
     const splash = document.getElementById('introSplash');
     const enterBtn = document.getElementById('enterBtn');
     const mainContent = document.getElementById('mainContent');
-    const envelope = document.querySelector('.envelope');
+    const envelope = document.getElementById('envelope');
 
     enterBtn.addEventListener('click', () => {
-        // Open envelope first
         envelope.classList.add('opened');
         enterBtn.style.pointerEvents = 'none';
         enterBtn.style.opacity = '0.5';
-
-        // After envelope animation, transition to content
         setTimeout(() => {
             splash.classList.add('hidden');
             mainContent.classList.add('visible');
@@ -54,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1600);
     });
 
-    // ── Typewriter Effect ──
+    // ── Typewriter ──
     function startTypewriter() {
         const el = document.getElementById('heroTitle');
         const text = 'En Anbu Sharmila... 🫀';
@@ -72,21 +69,20 @@ document.addEventListener('DOMContentLoaded', () => {
         type();
     }
 
-    // ── Scroll Reveal with stagger ──
+    // ── Scroll Reveal ──
     function initReveal() {
-        const items = document.querySelectorAll('.reveal-item');
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
+            entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
                     observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-        items.forEach(item => observer.observe(item));
+        document.querySelectorAll('.reveal-item').forEach(item => observer.observe(item));
     }
 
-    // ── Open When Cards (Flip) ──
+    // ── Flip Cards ──
     document.querySelectorAll('.open-when-card').forEach(card => {
         card.addEventListener('click', () => card.classList.toggle('flipped'));
     });
@@ -94,14 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Hug Button + Confetti ──
     const hugBtn = document.getElementById('sendLoveBtn');
     const hugResp = document.getElementById('hugResponse');
-
     hugBtn.addEventListener('click', () => {
         hugBtn.classList.add('clicked');
         hugResp.classList.add('show');
         hugResp.style.display = 'block';
         launchConfetti();
-        // Burst of floating hearts
-        for (let i = 0; i < 15; i++) setTimeout(spawnFloat, i*120);
+        for (let i = 0; i < 12; i++) setTimeout(spawnFloat, i*100);
     });
 
     function launchConfetti() {
@@ -121,4 +115,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }, i*25);
         }
     }
+
+    // ── Love Counter with floating hearts ──
+    const loveTapBtn = document.getElementById('loveTapBtn');
+    const loveCountEl = document.getElementById('loveCount');
+    let loveCount = 0;
+
+    loveTapBtn.addEventListener('click', (e) => {
+        loveCount++;
+        loveCountEl.textContent = loveCount;
+        loveTapBtn.classList.remove('pop');
+        void loveTapBtn.offsetWidth; // reflow
+        loveTapBtn.classList.add('pop');
+
+        // Spawn a floating heart at click position
+        const heart = document.createElement('div');
+        heart.className = 'tap-heart';
+        heart.textContent = ['💗','💕','❤️','🩷','💖'][Math.floor(Math.random()*5)];
+        heart.style.left = e.clientX + 'px';
+        heart.style.top = e.clientY + 'px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+
+        // Milestone confetti
+        if (loveCount === 10 || loveCount === 50 || loveCount === 100) {
+            launchConfetti();
+        }
+    });
+
+    // ── Parallax on emotion cards (subtle mouse move) ──
+    document.querySelectorAll('.emotion-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `translateY(-4px) rotateY(${x*3}deg) rotateX(${-y*3}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
 });
