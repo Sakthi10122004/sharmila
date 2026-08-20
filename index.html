@@ -3,241 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>En Uyir Sharmila-ku... 🫂🫀</title>
-    <meta name="description" content="A heartfelt letter for the most special person in my life.">
+    <title>En Uyir Sharmila-ku...</title>
+    <meta name="description" content="A heartfelt interactive letter.">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Cursor trail canvas -->
+    <canvas id="cursorCanvas"></canvas>
+    <!-- Scroll progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- Ambient Background -->
-    <div class="ambient-bg">
-        <div class="stars-container" id="starsContainer"></div>
-        <div class="floating-elements" id="floatingElements"></div>
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-        <div class="glow-orb orb-3"></div>
-    </div>
+    <!-- Particle BG -->
+    <div class="particle-bg" id="particleBg"></div>
 
-    <!-- Intro Splash with Envelope -->
-    <div class="intro-splash" id="introSplash">
-        <div class="splash-content">
-            <div class="envelope-container">
-                <div class="envelope" id="envelope">
-                    <div class="envelope-back"></div>
-                    <div class="envelope-letter"><p>Un-akkaga<br>mattum... 💌</p></div>
-                    <div class="envelope-front"></div>
-                    <div class="envelope-flap"></div>
-                </div>
-            </div>
-            <p class="splash-text">Oru special kadidham... un-akkaga mattum...</p>
-            <button class="splash-btn" id="enterBtn"><span class="btn-sparkle"></span>Open Here 💌</button>
+    <!-- ===== INTRO ===== -->
+    <section class="intro" id="intro">
+        <div class="intro-particles" id="introParticles"></div>
+        <div class="intro-content">
+            <svg class="intro-heart" viewBox="0 0 100 100" width="80" height="80">
+                <path class="heart-path" d="M50 88 C25 65 5 50 5 30 C5 15 15 5 30 5 C38 5 45 10 50 18 C55 10 62 5 70 5 C85 5 95 15 95 30 C95 50 75 65 50 88Z" fill="none" stroke="var(--pink)" stroke-width="2"/>
+                <path class="heart-fill" d="M50 88 C25 65 5 50 5 30 C5 15 15 5 30 5 C38 5 45 10 50 18 C55 10 62 5 70 5 C85 5 95 15 95 30 C95 50 75 65 50 88Z" fill="var(--pink)" opacity="0"/>
+            </svg>
+            <p class="intro-sub">Oru special kadidham... un-akkaga mattum</p>
+            <button class="intro-btn" id="introBtn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+                <span>Kadidham-ai Thiravai</span>
+            </button>
         </div>
-    </div>
+    </section>
 
-    <!-- Main Content -->
-    <main class="letter-wrapper" id="mainContent">
-        <div class="letter-paper">
-            <div class="paper-corner corner-tl"></div>
-            <div class="paper-corner corner-tr"></div>
-            <div class="paper-corner corner-bl"></div>
-            <div class="paper-corner corner-br"></div>
+    <!-- ===== MAIN ===== -->
+    <main class="main-wrap" id="mainWrap">
 
-            <!-- Hero -->
-            <header class="hero">
-                <div class="reveal-item"><span class="badge pulse-badge">💌 Unakkaga Mattumey...</span></div>
-                <h1 class="hero-title reveal-item" id="heroTitle"></h1>
-                <p class="hero-subtitle reveal-item">— Un mela uyirai vachirukura un Sakthi —</p>
-                <div class="why-note reveal-item">
-                    <div class="why-note-icon">📱</div>
-                    <div>
+        <!-- Nav dots -->
+        <nav class="side-nav" id="sideNav">
+            <div class="nav-dot active" data-section="hero"></div>
+            <div class="nav-dot" data-section="quote"></div>
+            <div class="nav-dot" data-section="cards"></div>
+            <div class="nav-dot" data-section="memories"></div>
+            <div class="nav-dot" data-section="letters"></div>
+            <div class="nav-dot" data-section="promise"></div>
+            <div class="nav-dot" data-section="footer"></div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="section hero-section" id="hero">
+            <div class="container">
+                <div class="hero-badge reveal">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--pink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span>Unakkaga Mattumey</span>
+                </div>
+                <h1 class="hero-title" id="heroTitle"></h1>
+                <p class="hero-sub reveal">Un mela uyirai vachirukura un Sakthi</p>
+                <div class="why-card reveal" id="whyCard">
+                    <div class="why-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--pink)" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01" stroke-width="3" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="why-text">
                         <p>WhatsApp-la evlo periya message anupinaalum nee paakkavey maattengura ma... Athanaala thaan un kitta en manasula irukura ellaa bharatha-yum solla intha page-ai create pannen.</p>
-                        <p class="why-note-plea">Konjam neram eduthu idhai muzhusaa padi ma... Please 🙏</p>
+                        <p class="why-plea">Konjam neram eduthu idhai muzhusaa padi ma... Please</p>
                     </div>
                 </div>
-            </header>
+            </div>
+        </section>
 
-            <!-- Core Quote -->
-            <section class="core-statement reveal-item">
-                <div class="quote-glow"></div>
-                <div class="quote-marks">"</div>
-                <p class="highlight-quote">Nee illana naan verum <span class="zero-text">ZERO</span> dhi ma... En ulagamey nee thaan. Enakku vera edhuvumey venaam — un kooda konja neram pesanum, konjam time spend pannanum... <span class="shimmer-text">adhu mattum thaan en aasa.</span></p>
-                <div class="quote-marks end">"</div>
-                <div class="heartbeat-line">
-                    <svg viewBox="0 0 400 50" class="heartbeat-svg"><path d="M0,25 L80,25 L100,5 L120,45 L140,10 L160,40 L180,25 L400,25" stroke="var(--pink)" stroke-width="2.5" fill="none" class="heartbeat-path"/></svg>
+        <!-- QUOTE -->
+        <section class="section quote-section" id="quote">
+            <div class="container">
+                <div class="quote-card reveal">
+                    <div class="quote-line left"></div>
+                    <blockquote>
+                        <p>Nee illana naan verum <span class="zero" id="zeroText">ZERO</span> dhi ma... En ulagamey nee thaan. Enakku vera edhuvumey venaam — un kooda konja neram pesanum, konjam time spend pannanum...</p>
+                        <p class="quote-highlight">adhu mattum thaan en aasa.</p>
+                    </blockquote>
+                    <div class="quote-line right"></div>
+                    <svg class="quote-heartbeat" viewBox="0 0 300 40" preserveAspectRatio="none">
+                        <path d="M0,20 L60,20 L75,4 L90,36 L105,8 L120,32 L135,20 L300,20" stroke="var(--pink)" stroke-width="2" fill="none" class="hb-draw"/>
+                    </svg>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Cards -->
-            <section class="emotion-timeline">
+        <!-- EMOTION CARDS -->
+        <section class="section cards-section" id="cards">
+            <div class="container">
+                <div class="cards-grid">
 
-                <div class="emotion-card reveal-item slide-left" data-emotion="longing">
-                    <div class="card-glow-edge"></div><div class="card-number">01</div>
-                    <div class="card-header"><span class="card-emoji bounce-emoji">🥀</span><h3>Namba Munna Maari Pesuradhey Illa...</h3></div>
-                    <div class="card-body">
-                        <p>Munna yellam evlo neram pesuvom ma... neraiya pesitey irupom la? Ippo suthama pesuradhu illa. Morning, afternoon, night — call panni <em>"Saapitiya?"</em> nu kekkadha naal irukka? Illa.</p>
-                        <p>Aana ippo naan kekkuradhu illa... Yen theriyuma? Unakku pudikkadhu nu therinjikitten...</p>
-                        <p class="card-whisper">Sorry ma... apdi nadanthukittadhuku. En mela thaan thappu... 💔</p>
-                    </div>
-                    <div class="card-tear"><span class="tear-drop">💧</span><span class="tear-drop delay-1">💧</span></div>
-                </div>
-
-                <div class="emotion-card reveal-item slide-right" data-emotion="pain">
-                    <div class="card-glow-edge"></div><div class="card-number">02</div>
-                    <div class="card-header"><span class="card-emoji bounce-emoji">💔</span><h3>En Aasai & En Bayam...</h3></div>
-                    <div class="card-body">
-                        <p>Enakku thappana motive-la anga irukkanum nu yosanai-yey illa ma. Night un kooda irundhu, dress yellam iron panni pack panni kuduthu, veliya poi chicken saaptu... un kooda konjam time spend pannanum nu thaan nenachen.</p>
-                        <p>Aana sudden-ah nee <em>"Venaam po"</em> nu sonna odaney... <span class="heartbreak-text">nenjey oru maari aaidichi.</span></p>
-                        <p>En mela thaan thappu. <strong>Romba bayama irukku amma, nee vittu poiduviyo nu...</strong> Naan unna nalla, sandhoshama vachikanum nu thaan nenaikkiren.</p>
-                        <p class="card-glow-text">Enakku un mela irukura care — yaarumey kuduthirukka maatanga. 🫀</p>
-                    </div>
-                </div>
-
-                <div class="emotion-card reveal-item slide-left" data-emotion="effort">
-                    <div class="card-glow-edge"></div><div class="card-number">03</div>
-                    <div class="card-header"><span class="card-emoji bounce-emoji">🫀</span><h3>Naan Potta Effort... Yaarum Panna Maatanga</h3></div>
-                    <div class="card-body">
-                        <p>Naan potta effort, naan panna love — yaarum pannala. Naan kudutha care — yaarum kudukala. Un kooda iruntha mattum podhum nu irundha naan...</p>
-                        <p>Actually unnakkey theriyum naan unna yeppdi treat pannuven nu... Aana nee ennai-ya un maari <span class="highlight-word">1% kooda</span> treat panradhu illa ma.</p>
-                        <p class="card-whisper">Aana un kooda iruntha mattum podhum nu thaan feel pannren... because nee enakku avlo periya gift 🎁</p>
-                    </div>
-                </div>
-
-                <div class="emotion-card reveal-item slide-right" data-emotion="silence">
-                    <div class="card-glow-edge"></div><div class="card-number">04</div>
-                    <div class="card-header"><span class="card-emoji bounce-emoji">⏳</span><h3>Nee Call Pannumbodhellaam...</h3></div>
-                    <div class="card-body">
-                        <p>Munna yellam chinna vishayathukkum call pannuva. Chumma irunthaalum sari — nee call pannuva. Ippo naan evlo moora call pannaalum edukkaradhu illa. WhatsApp-la message send panna — reply vidu, paakkardhu kooda illa 😔</p>
-                        <p>Aana nee call pannumbodhu naan idhai pathi edhuvumey kekka maaten. Normal-ah pesuven 🙂</p>
-                        <p>Aana <em>Maha, Nishanth kitta jolly-ah irukura maari en kitta irukka maatiya</em> nu oru yekkam enakku irukkum dhi... 😭</p>
-                    </div>
-                    <div class="card-tear"><span class="tear-drop">💧</span></div>
-                </div>
-
-                <div class="emotion-card reveal-item slide-left" data-emotion="yearning">
-                    <div class="card-glow-edge"></div><div class="card-number">05</div>
-                    <div class="card-header"><span class="card-emoji bounce-emoji">🥺</span><h3>Enakku En Pazhaya Innocent Sharmila Venum...</h3></div>
-                    <div class="card-body">
-                        <p>Yellathaiyum en kitta kekkanum, naan sollithaaranum, naan sollikuduthadhai pannitu vandhu — <em>"Pah naan ippadi pannen, enakku credits kedachadhu!"</em> nu solluviye... <span class="shimmer-text">antha innocent Sharmila thaan enakku venum.</span></p>
-                        <p>Nee en mela depend aaganum nu sollala — but antha connect enga pochu ma? 🥲</p>
-                        <p class="card-whisper">Mathavanga "Namba sera maattom" nu sonna kooda paravaala ma... Aana neeye sollum bodhu — en idhayamey vedichchidum pola irukku 😭</p>
-                    </div>
-                </div>
-
-                <div class="emotion-card reveal-item slide-right" data-emotion="priority">
-                    <div class="card-glow-edge"></div><div class="card-number">06</div>
-                    <div class="card-header"><span class="card-emoji bounce-emoji">📞</span><h3>Yen Naan Odanei Reply Pannren Theriyuma?</h3></div>
-                    <div class="card-body">
-                        <p>Nee busy-ah irukka — ok. But apo apo call panni pesa try pannren.</p>
-                        <p>Aana yen naan odanei odanei reply pannren, call edukuren nu theriyuma?</p>
-                        <p class="priority-text">Of course — <strong>nee enakku priority thaan.</strong> And avlo yekkathula irukken nee call pannuva nu... 💓</p>
-                        <p>Namba onum pesitey irukka venaam — but anga oru jolly-ah irunthaa, adhu mattum thaan enakku venum.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Memory Gallery -->
-            <section class="memory-section reveal-item">
-                <h2 class="section-title">📸 Namba Ninaivugal...</h2>
-                <p class="section-subtitle">Namba kooda serthu kadantha azhagana tharunanggal... ♥</p>
-                <div class="memory-gallery" id="memoryGallery">
-                    <a href="https://photos.app.goo.gl/XpV3sCFYEY61ybeE9" target="_blank" class="memory-album-link">
-                        <div class="album-card">
-                            <div class="album-icon">📷</div>
-                            <div class="album-sparkles">
-                                <span>✨</span><span>💕</span><span>✨</span>
-                            </div>
-                            <h3>Paa! ❤️👼</h3>
-                            <p>Namba photos yellam paakka click pannu...</p>
-                            <div class="album-btn">Open Album 💌</div>
+                    <article class="e-card reveal tilt-card" data-color="rose">
+                        <div class="e-card-top"><div class="e-card-num">01</div>
+                            <svg class="e-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22c-4-3-8-7-8-11a4 4 0 018 0 4 4 0 018 0c0 4-4 8-8 11z"/><line x1="12" y1="8" x2="12" y2="14" stroke-width="1.5"/></svg>
                         </div>
-                    </a>
-                </div>
-                <p class="memory-note">Ithu yellam paakkumbodhu, namba evlo nalla irunthom nu theriyum la... 🥲<br>Antha naatkal thirumba varaadha? En pazhaya Sharmila thirumba varaadha? 💔</p>
-            </section>
+                        <h3>Namba Munna Maari Pesuradhey Illa...</h3>
+                        <p>Munna yellam evlo neram pesuvom ma... neraiya pesitey irupom la? Ippo suthama pesuradhu illa. Morning, afternoon, night — call panni "Saapitiya?" nu kekkadha naal irukka? Illa.</p>
+                        <p>Unakku pudikkadhu nu therinjikitten...</p>
+                        <p class="e-whisper">Sorry ma... apdi nadanthukittadhuku. En mela thaan thappu...</p>
+                    </article>
 
-            <!-- Open When Cards -->
-            <section class="open-when-section reveal-item">
-                <h2 class="section-title">💌 Open When...</h2>
-                <p class="section-subtitle">Unnaku yeppo thonuthoo, appo thiranthu padi...</p>
-                <div class="open-when-grid">
-                    <div class="open-when-card" data-card="lonely">
-                        <div class="owc-front"><span class="owc-emoji">🌙</span><p>Open when nee<br>lonely-ah feel panra...</p><span class="owc-tap">Tap to open 💌</span></div>
-                        <div class="owc-back"><p>Nee lonely-ah feel panrumbodhu — naan un kitta irukken nu nenachiko. En manasula nee mattum thaan irukka ma. Distance irukkalaam, busy irukkalaam — but en nenjula nee always dhi. 🫂</p></div>
+                    <article class="e-card reveal tilt-card" data-color="violet">
+                        <div class="e-card-top"><div class="e-card-num">02</div>
+                            <svg class="e-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/><line x1="2" y1="2" x2="22" y2="22" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>En Aasai & En Bayam...</h3>
+                        <p>Un kooda konjam time spend pannanum nu thaan nenachen. Aana sudden-ah nee "Venaam po" nu sonna odaney... nenjey oru maari aaidichi.</p>
+                        <p><strong>Romba bayama irukku amma, nee vittu poiduviyo nu...</strong></p>
+                        <p class="e-whisper">Enakku un mela irukura care — yaarumey kuduthirukka maatanga.</p>
+                    </article>
+
+                    <article class="e-card reveal tilt-card" data-color="cyan">
+                        <div class="e-card-top"><div class="e-card-num">03</div>
+                            <svg class="e-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+                        </div>
+                        <h3>Naan Potta Effort... Yaarum Panna Maatanga</h3>
+                        <p>Naan potta effort, naan panna love — yaarum pannala. Naan kudutha care — yaarum kudukala.</p>
+                        <p>Aana nee ennai-ya un maari <strong>1% kooda</strong> treat panradhu illa ma.</p>
+                        <p class="e-whisper">Un kooda iruntha mattum podhum... nee enakku avlo periya gift.</p>
+                    </article>
+
+                    <article class="e-card reveal tilt-card" data-color="amber">
+                        <div class="e-card-top"><div class="e-card-num">04</div>
+                            <svg class="e-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/><line x1="1" y1="1" x2="23" y2="23" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>Nee Call Pannumbodhellaam...</h3>
+                        <p>Ippo naan evlo moora call pannaalum edukkaradhu illa. WhatsApp-la message send panna — reply vidu, paakkardhu kooda illa.</p>
+                        <p>Maha, Nishanth kitta jolly-ah irukura maari en kitta irukka maatiya nu oru yekkam enakku irukkum dhi...</p>
+                    </article>
+
+                    <article class="e-card reveal tilt-card" data-color="rose">
+                        <div class="e-card-top"><div class="e-card-num">05</div>
+                            <svg class="e-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-width="3" stroke-linecap="round"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-width="3" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>En Pazhaya Innocent Sharmila Venum...</h3>
+                        <p>Yellathaiyum en kitta kekkanum, naan sollithaaranum — "Pah naan ippadi pannen, enakku credits kedachadhu!" nu solluviye... antha innocent Sharmila thaan enakku venum.</p>
+                        <p class="e-whisper">Neeye "sera maattom" nu sollum bodhu — en idhayamey vedichchidum pola irukku.</p>
+                    </article>
+
+                    <article class="e-card reveal tilt-card" data-color="cyan">
+                        <div class="e-card-top"><div class="e-card-num">06</div>
+                            <svg class="e-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <h3>Yen Naan Odanei Reply Pannren Theriyuma?</h3>
+                        <p>Of course — <strong>nee enakku priority thaan.</strong> And avlo yekkathula irukken nee call pannuva nu...</p>
+                        <p>Namba onum pesitey irukka venaam — but jolly-ah irunthaa adhu mattum thaan enakku venum.</p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- MEMORIES -->
+        <section class="section memories-section" id="memories">
+            <div class="container">
+                <h2 class="sec-heading reveal">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--pink)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <span>Namba Ninaivugal</span>
+                </h2>
+                <p class="sec-sub reveal">Namba kooda serthu kadantha azhagana tharunanggal</p>
+                <a href="https://photos.app.goo.gl/XpV3sCFYEY61ybeE9" target="_blank" class="album-link reveal tilt-card">
+                    <div class="album-inner">
+                        <svg class="album-cam" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--pink)" stroke-width="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        <h3>Paa! Our Memories</h3>
+                        <p>Namba photos yellam paakka click pannu</p>
+                        <div class="album-cta">
+                            <span>Open Album</span>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
                     </div>
-                    <div class="open-when-card" data-card="stressed">
-                        <div class="owc-front"><span class="owc-emoji">😤</span><p>Open when work<br>romba stress ah irukku...</p><span class="owc-tap">Tap to open 💌</span></div>
-                        <div class="owc-back"><p>Deep breath eduma. Nee enna pannaalum — naan unnoda proud ah iruppen. Nee flight-la pogura mass — enakku romba perumai papa! Take a break, water kudi ❤️</p></div>
+                </a>
+                <p class="mem-note reveal">Ithu yellam paakkumbodhu, namba evlo nalla irunthom nu theriyum la... Antha naatkal thirumba varaadha?</p>
+            </div>
+        </section>
+
+        <!-- OPEN WHEN LETTERS -->
+        <section class="section letters-section" id="letters">
+            <div class="container">
+                <h2 class="sec-heading reveal">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--pink)" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <span>Open When...</span>
+                </h2>
+                <p class="sec-sub reveal">Unnaku yeppo thonuthoo, appo thiranthu padi</p>
+                <div class="letters-grid">
+                    <div class="letter-card reveal" id="lc1">
+                        <div class="lc-front" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                            <p>Lonely-ah<br>feel panra</p>
+                            <span class="lc-tap">Tap to open</span>
+                        </div>
+                        <div class="lc-back">
+                            <p>Nee lonely-ah feel panrumbodhu — naan un kitta irukken nu nenachiko. En manasula nee mattum thaan. Distance irukkalaam, busy irukkalaam — but en nenjula nee always dhi.</p>
+                        </div>
                     </div>
-                    <div class="open-when-card" data-card="angry">
-                        <div class="owc-front"><span class="owc-emoji">💢</span><p>Open when en mela<br>kovama irukku...</p><span class="owc-tap">Tap to open 💌</span></div>
-                        <div class="owc-back"><p>Sorry ma... genuinely sorry. Naan perfect illa — but try pannren. En kovam, en thappu — yellaamey un mela irukura love-oda thaan varudhu. Mannichidu amma 🙏💔</p></div>
+                    <div class="letter-card reveal" id="lc2">
+                        <div class="lc-front" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/><path d="M18 9l-6-6-6 6" opacity=".4"/></svg>
+                            <p>Work romba<br>stress ah irukku</p>
+                            <span class="lc-tap">Tap to open</span>
+                        </div>
+                        <div class="lc-back">
+                            <p>Deep breath eduma. Nee enna pannaalum — naan unnoda proud ah iruppen. Nee flight-la pogura mass — enakku romba perumai papa! Take a break, water kudi.</p>
+                        </div>
                     </div>
-                    <div class="open-when-card" data-card="smile">
-                        <div class="owc-front"><span class="owc-emoji">😊</span><p>Open when un<br>face-la smile venum...</p><span class="owc-tap">Tap to open 💌</span></div>
-                        <div class="owc-back"><p>Un kooda pesura maari pesitey thaan type pannuven 🤣 Phone-la type panna time aagum nu laptop-la type panni send pannuven! Watch link send pannen atha paakkala 🤣🤣</p></div>
+                    <div class="letter-card reveal" id="lc3">
+                        <div class="lc-front" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                            <p>En mela<br>kovama irukku</p>
+                            <span class="lc-tap">Tap to open</span>
+                        </div>
+                        <div class="lc-back">
+                            <p>Sorry ma... genuinely sorry. Naan perfect illa — but try pannren. En thappu yellaamey un mela irukura love-oda thaan varudhu. Mannichidu amma.</p>
+                        </div>
+                    </div>
+                    <div class="letter-card reveal" id="lc4">
+                        <div class="lc-front" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-width="3" stroke-linecap="round"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-width="3" stroke-linecap="round"/></svg>
+                            <p>Un face-la<br>smile venum</p>
+                            <span class="lc-tap">Tap to open</span>
+                        </div>
+                        <div class="lc-back">
+                            <p>Un kooda pesura maari pesitey thaan type pannuven theriyuma! Phone-la type panna time aagum nu laptop-la type panni send pannuven! Watch link paakkala nu theriyum!</p>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Promise -->
-            <section class="promise-section reveal-item">
-                <div class="promise-card">
-                    <div class="promise-glow"></div>
-                    <div class="promise-seal">🙏</div>
+        <!-- PROMISE -->
+        <section class="section promise-section" id="promise">
+            <div class="container">
+                <div class="promise-card reveal">
+                    <svg class="promise-icon" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--pink)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
                     <h3>Manasula Irundhu Orey Oru Vendikol...</h3>
-                    <div class="promise-divider"><span class="divider-heart">♥</span></div>
-                    <p class="promise-bold">Sorry... Mannichidu amma! 🙏<br>Enimael apdi nadakkaadhu. Idhudhaan last warning enakku.<br>Naan ini correct-ah iruppen.</p>
+                    <div class="promise-divider"></div>
+                    <p class="p-bold">Sorry... Mannichidu amma!<br>Enimael apdi nadakkaadhu. Idhudhaan last warning enakku.<br>Naan ini correct-ah iruppen.</p>
                     <p>Enakku un kitta neraiya pesanum mah... Yeppavaachu time kedachchaalum sollu ma — naan pesuren nee kelu... aprom nee pesu naan kekkuren.</p>
-                    <p class="promise-plea">Oru manushan ivlo periya message anupuraanna — avan evlo yekkam-la iruppaan nu konjam yosichchi paaru ma... 💔</p>
+                    <p class="p-plea">Oru manushan ivlo periya message anupuraanna — avan evlo yekkam-la iruppaan nu konjam yosichchi paaru ma...</p>
                 </div>
-            </section>
+                <!-- Flight -->
+                <div class="flight-card reveal tilt-card">
+                    <svg class="flight-svg" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--aqua)" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    <h3>Safe-ah Poidu Vaa En Thangam</h3>
+                    <ul class="flight-list">
+                        <li>Phone-ku charge pottuko</li>
+                        <li>Bathirama iru</li>
+                        <li>Nee undu, un work undu nu iru</li>
+                        <li>Flight-la pogumbodhu video pannu</li>
+                        <li>Dress illa nu kavalapadadha — adutha maasam vaangikalam</li>
+                    </ul>
+                    <p class="flight-proud">Mass thaan flight-la pora — enakku romba perumaiya irukku papa!</p>
+                </div>
+            </div>
+        </section>
 
-            <!-- Flight -->
-            <section class="flight-section reveal-item">
-                <div class="flight-card">
-                    <div class="flight-icon">✈️</div>
-                    <h3>Safe-ah Poidu Vaa En Thangam...</h3>
-                    <div class="flight-details">
-                        <div class="flight-item"><span>📱</span> Phone-ku charge pottuko</div>
-                        <div class="flight-item"><span>🛡️</span> Bathirama iru</div>
-                        <div class="flight-item"><span>💼</span> Nee undu, un work undu nu iru</div>
-                        <div class="flight-item"><span>🎬</span> Flight-la pogumbodhu video pannu</div>
-                        <div class="flight-item"><span>👗</span> Dress illa nu kavalapadadha — adutha maasam vaangikalam</div>
+        <!-- FOOTER -->
+        <section class="section footer-section" id="footer">
+            <div class="container">
+                <h2 class="footer-title reveal">I Love You So Much Mah</h2>
+                <p class="footer-sub reveal">Nee illadha naan verum ZERO dhi...<br>Have a safe flight!<br>Un kooda pesanum nu aavala kaathuttu iruppen.</p>
+                <div class="hug-wrap reveal">
+                    <button class="hug-btn" id="hugBtn">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+                        <span>Enakkaaga Orey Oru Hug Thariya?</span>
+                    </button>
+                    <div class="hug-resp" id="hugResp">
+                        <p class="hug-msg">Hug Received</p>
+                        <p class="hug-sub-msg">Romba Sandhosham ma... Enakku nee mattum thaan! Take care en uyirey!</p>
                     </div>
-                    <p class="flight-proud">Mass thaan flight-la pora...<br>enakku romba perumaiya irukku papa! ❤️</p>
                 </div>
-            </section>
-
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer-section">
-            <h2 class="footer-title reveal-item">I Love You So Much Mah... 🫂🫀</h2>
-            <p class="footer-text reveal-item">Nee illadha naan verum ZERO dhi...<br>Have a safe flight!<br>Un kooda pesanum nu aavala kaathuttu iruppen.</p>
-            <div class="hug-section reveal-item">
-                <button id="sendLoveBtn" class="hug-btn"><span class="hug-btn-text">Enakkaaga Orey Oru Hug Thariya? 🫂</span><span class="btn-shine"></span></button>
-                <div id="hugResponse" class="hug-response">
-                    <div class="hug-response-content">
-                        <p class="hug-message">❤️ Hug Received ❤️</p>
-                        <p class="hug-sub">Romba Sandhosham ma...<br>Enakku nee mattum thaan!<br>Take care en uyirey! 🫂🫀</p>
+                <div class="love-meter reveal">
+                    <button class="love-tap" id="loveTap">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--pink)" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+                        <span>Tap to Send Love</span>
+                    </button>
+                    <div class="love-bar-wrap">
+                        <div class="love-bar" id="loveBar"></div>
                     </div>
+                    <p class="love-count"><span id="loveNum">0</span> loves sent</p>
+                </div>
+                <div class="signature reveal">
+                    <p>Forever & always yours,</p>
+                    <p class="sig-name">Un Sakthi</p>
                 </div>
             </div>
-            <!-- Love Counter -->
-            <div class="love-counter reveal-item" id="loveCounter">
-                <button class="love-tap-btn" id="loveTapBtn">💗 Tap to Send Love 💗</button>
-                <p class="love-count">You sent <span id="loveCount">0</span> loves 💕</p>
-            </div>
-            <div class="signature reveal-item">
-                <p>Forever & always yours,</p>
-                <p class="signature-name">— Un Sakthi 🫀</p>
-            </div>
-        </footer>
+        </section>
+
     </main>
-
     <script src="script.js"></script>
 </body>
 </html>
