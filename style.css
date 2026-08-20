@@ -50,7 +50,7 @@
 }
 
 html, body {
-  width: 100%; height: 100%;
+  width: 100%; height: 100%; height: 100dvh;
   overflow: hidden;
   background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-c) 45%, var(--bg-b) 100%);
   color: var(--ink);
@@ -455,7 +455,7 @@ button { font-family: inherit; cursor: pointer; }
 /* 15. SCRUBBER FOOTER                                                     */
 /* ---------------------------------------------------------------------- */
 .scrubber {
-  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  position: fixed; bottom: max(16px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
   width: calc(100% - 36px); max-width: 640px;
   background: var(--card-bg); border: 1px solid var(--card-border);
   border-radius: 60px; padding: 7px 14px; backdrop-filter: blur(20px);
@@ -755,7 +755,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible {
   .hud-title { font-size: 1.55rem; }
   .hud-subtitle { display: none; }
   .act-pills { display: none; }
-  .scene { padding: 96px 12px 92px; gap: 10px; }
+  .scene { padding: 96px 12px 110px; gap: 10px; justify-content: flex-start; }
   .char-duo { gap: 24px; height: 190px; }
   .char-rig { width: 100px; height: 165px; }
   .dialogue-card { padding: 16px 18px; }

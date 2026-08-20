@@ -144,6 +144,7 @@
       envelopeOverlay.classList.add('opened');
       document.body.style.overflow = '';
       startAmbientHearts();
+      window.goToAct(0);
     }, 1300);
   }
   waxSeal.addEventListener('click', openEnvelope);
