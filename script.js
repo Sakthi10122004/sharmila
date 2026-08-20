@@ -1,249 +1,199 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Floating particles ──
-    const pbg = document.getElementById('particleBg');
-    const pColors = ['#fbcfe8','#a5f3fc','#ddd6fe','#fde68a'];
-    function spawnParticle() {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        const sz = Math.random()*6+3;
-        Object.assign(p.style, {
-            width:sz+'px', height:sz+'px',
-            background:pColors[Math.floor(Math.random()*pColors.length)],
-            left:Math.random()*100+'%', bottom:'-10px',
-            animationDuration:(Math.random()*12+10)+'s'
-        });
-        pbg.appendChild(p);
-        setTimeout(()=>p.remove(),22000);
-    }
-    setInterval(spawnParticle,2000);
-    for(let i=0;i<6;i++) setTimeout(spawnParticle,i*400);
-
-    // ── Cursor trail (desktop only) ──
-    const canvas = document.getElementById('cursorCanvas');
+    // ── 1. Starfield Particle Background (Smooth Canvas) ──
+    const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
-    let trails = [];
-    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+    let stars = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
     resizeCanvas();
-    window.addEventListener('resize',resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
 
-    if(window.matchMedia('(pointer:fine)').matches){
-        document.addEventListener('mousemove',e=>{
-            trails.push({x:e.clientX,y:e.clientY,a:1,sz:3});
-            if(trails.length>30) trails.shift();
+    for (let i = 0; i < 70; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 1.8 + 0.5,
+            alpha: Math.random() * 0.7 + 0.2,
+            speed: Math.random() * 0.3 + 0.1
         });
-        function drawTrail(){
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            trails.forEach((t,i)=>{
-                t.a-=0.03;t.sz+=0.05;
-                if(t.a<=0) return;
-                ctx.beginPath();
-                ctx.arc(t.x,t.y,t.sz,0,Math.PI*2);
-                ctx.fillStyle=`rgba(236,72,153,${t.a*0.4})`;
-                ctx.fill();
-            });
-            trails=trails.filter(t=>t.a>0);
-            requestAnimationFrame(drawTrail);
-        }
-        drawTrail();
     }
 
-    // ── Scroll progress ──
-    const progBar = document.getElementById('scrollProgress');
-    window.addEventListener('scroll',()=>{
-        const h = document.documentElement.scrollHeight-window.innerHeight;
-        progBar.style.width = (window.scrollY/h*100)+'%';
-    });
-
-    // ── Intro ──
-    const intro = document.getElementById('intro');
-    const introBtn = document.getElementById('introBtn');
-    const mainWrap = document.getElementById('mainWrap');
-
-    // Intro particles
-    const ip = document.getElementById('introParticles');
-    for(let i=0;i<20;i++){
-        const d = document.createElement('div');
-        d.className='particle';
-        const sz=Math.random()*5+2;
-        Object.assign(d.style,{
-            width:sz+'px',height:sz+'px',
-            background:pColors[Math.floor(Math.random()*pColors.length)],
-            left:Math.random()*100+'%',bottom:'-10px',
-            animationDuration:(Math.random()*8+5)+'s',
-            animationDelay:(Math.random()*3)+'s'
+    function renderStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+            s.y -= s.speed;
+            if (s.y < 0) s.y = canvas.height;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+            ctx.fill();
         });
-        ip.appendChild(d);
+        requestAnimationFrame(renderStars);
     }
+    renderStars();
 
-    introBtn.addEventListener('click',()=>{
-        intro.classList.add('hide');
-        setTimeout(()=>{
-            intro.style.display='none';
-            mainWrap.classList.add('show');
-            startTypewriter();
-            initReveal();
-            initNavDots();
-        },800);
+    // ── 2. Interactive Spotlight Following Pointer ──
+    const spotlight = document.getElementById('glowSpotlight');
+    window.addEventListener('pointermove', (e) => {
+        spotlight.style.left = `${e.clientX}px`;
+        spotlight.style.top = `${e.clientY}px`;
     });
 
-    // ── Typewriter ──
-    function startTypewriter(){
-        const el = document.getElementById('heroTitle');
-        const text = 'En Anbu Sharmila...';
-        let i=0;
-        el.innerHTML='<span class="cursor"></span>';
-        function type(){
-            if(i<text.length){
-                el.innerHTML=text.substring(0,i+1)+'<span class="cursor"></span>';
-                i++;
-                setTimeout(type,text[i-1]==='.'?200:65);
-            } else {
-                setTimeout(()=>{el.innerHTML=text;},1500);
+    // ── 3. Scroll Progress ──
+    const progressEl = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / totalHeight) * 100;
+        progressEl.style.width = `${progress}%`;
+    });
+
+    // ── 4. Intro Curtain Unseal ──
+    const openBtn = document.getElementById('openEnvelopeBtn');
+    const introCurtain = document.getElementById('introCurtain');
+    
+    openBtn.addEventListener('click', () => {
+        introCurtain.classList.add('opened');
+        spawnBurst(window.innerWidth / 2, window.innerHeight / 2, 20);
+        setTimeout(startTypewriter, 600);
+    });
+
+    // ── 5. Typewriter Effect ──
+    function startTypewriter() {
+        const textTarget = document.getElementById('typewriterText');
+        const phrase = 'En Anbu Sharmila...';
+        let idx = 0;
+        textTarget.textContent = '';
+        
+        function step() {
+            if (idx < phrase.length) {
+                textTarget.textContent += phrase[idx];
+                idx++;
+                setTimeout(step, 80);
             }
         }
-        type();
+        step();
     }
 
-    // ── Scroll Reveal ──
-    function initReveal(){
-        const obs = new IntersectionObserver(entries=>{
-            entries.forEach(e=>{
-                if(e.isIntersecting){e.target.classList.add('shown');obs.unobserve(e.target);}
-            });
-        },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-        document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-    }
-
-    // ── Side Nav Dots ──
-    function initNavDots(){
-        const sections = ['hero','quote','cards','memories','letters','promise','footer'];
-        const dots = document.querySelectorAll('.nav-dot');
-        dots.forEach(d=>{
-            d.addEventListener('click',()=>{
-                const target = document.getElementById(d.dataset.section);
-                if(target) target.scrollIntoView({behavior:'smooth'});
-            });
+    // ── 6. 3D Card Tilt on Hover / Touch ──
+    const tiltCards = document.querySelectorAll('.interactive-tilt');
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(800px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateY(-4px)`;
         });
-        const secObs = new IntersectionObserver(entries=>{
-            entries.forEach(e=>{
-                if(e.isIntersecting){
-                    dots.forEach(d=>d.classList.remove('active'));
-                    const match = [...dots].find(d=>d.dataset.section===e.target.id);
-                    if(match) match.classList.add('active');
-                }
-            });
-        },{threshold:0.3});
-        sections.forEach(id=>{
-            const el=document.getElementById(id);
-            if(el) secObs.observe(el);
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
         });
-    }
-
-    // ── 3D Tilt Cards ──
-    document.querySelectorAll('.tilt-card').forEach(card=>{
-        card.addEventListener('mousemove',e=>{
-            const r=card.getBoundingClientRect();
-            const x=(e.clientX-r.left)/r.width-.5;
-            const y=(e.clientY-r.top)/r.height-.5;
-            card.style.transform=`perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`;
-        });
-        card.addEventListener('mouseleave',()=>{card.style.transform='';});
-        // Touch support
-        card.addEventListener('touchmove',e=>{
-            const t=e.touches[0];
-            const r=card.getBoundingClientRect();
-            const x=(t.clientX-r.left)/r.width-.5;
-            const y=(t.clientY-r.top)/r.height-.5;
-            card.style.transform=`perspective(600px) rotateY(${x*6}deg) rotateX(${-y*6}deg)`;
-        },{passive:true});
-        card.addEventListener('touchend',()=>{card.style.transform='';});
     });
 
-    // ── ZERO text interaction ──
-    const zeroEl = document.getElementById('zeroText');
-    if(zeroEl){
-        zeroEl.addEventListener('click',()=>{
-            zeroEl.classList.remove('shake');
-            void zeroEl.offsetWidth;
-            zeroEl.classList.add('shake');
+    // ── 7. Flip Cards Toggle (Mobile & Desktop) ──
+    const flipCards = document.querySelectorAll('.flip-card');
+    flipCards.forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+            if (navigator.vibrate) navigator.vibrate(20);
         });
-        zeroEl.addEventListener('mouseenter',()=>{
-            zeroEl.style.color='var(--aqua)';
-        });
-        zeroEl.addEventListener('mouseleave',()=>{
-            zeroEl.style.color='';
-        });
-    }
-
-    // ── Why card tap ripple ──
-    const whyCard = document.getElementById('whyCard');
-    if(whyCard){
-        whyCard.addEventListener('click',e=>{
-            whyCard.style.borderColor='rgba(236,72,153,.3)';
-            setTimeout(()=>{whyCard.style.borderColor='';},600);
-        });
-    }
-
-    // ── Hug Button ──
-    const hugBtn = document.getElementById('hugBtn');
-    const hugResp = document.getElementById('hugResp');
-    hugBtn.addEventListener('click',()=>{
-        hugBtn.classList.add('done');
-        hugResp.classList.add('show');
-        hugResp.style.display='block';
-        launchConfetti();
-        for(let i=0;i<10;i++) setTimeout(spawnParticle,i*80);
     });
 
-    function launchConfetti(){
-        const colors=['#ec4899','#06b6d4','#8b5cf6','#f59e0b','#fbcfe8','#a5f3fc'];
-        for(let i=0;i<45;i++){
-            setTimeout(()=>{
-                const c=document.createElement('div');
-                c.className='confetti';
-                Object.assign(c.style,{
-                    left:Math.random()*100+'vw',top:'-10px',
-                    background:colors[Math.floor(Math.random()*colors.length)],
-                    width:(Math.random()*8+4)+'px',height:(Math.random()*8+4)+'px',
-                    animationDuration:(Math.random()*1.5+1.5)+'s'
-                });
-                document.body.appendChild(c);
-                setTimeout(()=>c.remove(),3000);
-            },i*30);
+    // ── 8. ZERO Pulse Trigger ──
+    const zeroTrigger = document.getElementById('zeroTrigger');
+    zeroTrigger.addEventListener('click', (e) => {
+        zeroTrigger.style.transform = 'scale(1.4) rotate(-8deg)';
+        setTimeout(() => zeroTrigger.style.transform = '', 300);
+        spawnBurst(e.clientX, e.clientY, 8);
+    });
+
+    // ── 9. Press & Hold for Hug (Timer Progress) ──
+    const holdBtn = document.getElementById('holdHugBtn');
+    const holdProgress = document.getElementById('holdProgress');
+    const hugFeedback = document.getElementById('hugFeedback');
+    const hugBtnText = document.getElementById('hugBtnText');
+    let holdTimer = null;
+    let progressVal = 0;
+
+    function startHold(e) {
+        progressVal = 0;
+        holdProgress.style.width = '0%';
+        holdTimer = setInterval(() => {
+            progressVal += 4;
+            holdProgress.style.width = `${progressVal}%`;
+            if (progressVal >= 100) {
+                clearInterval(holdTimer);
+                completeHug(e);
+            }
+        }, 30);
+    }
+
+    function cancelHold() {
+        if (progressVal < 100) {
+            clearInterval(holdTimer);
+            holdProgress.style.width = '0%';
         }
     }
 
-    // ── Love Meter ──
-    const loveTap = document.getElementById('loveTap');
-    const loveBar = document.getElementById('loveBar');
-    const loveNum = document.getElementById('loveNum');
-    let loves=0;
+    function completeHug(e) {
+        holdBtn.style.pointerEvents = 'none';
+        hugBtnText.textContent = 'Hug Sent!';
+        hugFeedback.style.display = 'block';
+        const clientX = e.clientX || window.innerWidth / 2;
+        const clientY = e.clientY || window.innerHeight / 2;
+        spawnBurst(clientX, clientY, 25);
+        if (navigator.vibrate) navigator.vibrate([40, 60, 100]);
+    }
 
-    loveTap.addEventListener('click',e=>{
-        loves++;
-        loveNum.textContent=loves;
-        loveBar.style.width=Math.min(loves,100)+'%';
-        loveTap.classList.remove('pop');
-        void loveTap.offsetWidth;
-        loveTap.classList.add('pop');
+    holdBtn.addEventListener('mousedown', startHold);
+    holdBtn.addEventListener('touchstart', startHold, { passive: true });
+    window.addEventListener('mouseup', cancelHold);
+    window.addEventListener('touchend', cancelHold);
 
-        // Burst heart at click pos
-        const h=document.createElement('div');
-        h.className='burst-heart';
-        h.innerHTML='<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>';
-        h.style.left=e.clientX-10+'px';
-        h.style.top=e.clientY-10+'px';
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),800);
+    // ── 10. Tap to Send Love Meter ──
+    const tapLoveBtn = document.getElementById('tapLoveBtn');
+    const meterFill = document.getElementById('meterFill');
+    const loveCount = document.getElementById('loveCount');
+    let count = 0;
 
-        if(loves===10||loves===50||loves===100) launchConfetti();
+    tapLoveBtn.addEventListener('click', (e) => {
+        count++;
+        loveCount.textContent = count;
+        meterFill.style.width = `${Math.min(count * 5, 100)}%`;
+        spawnBurst(e.clientX, e.clientY, 3);
+        if (navigator.vibrate) navigator.vibrate(15);
     });
 
-    // ── E-card hover sound-like vibration (haptic on mobile) ──
-    document.querySelectorAll('.e-card').forEach(card=>{
-        card.addEventListener('click',()=>{
-            if(navigator.vibrate) navigator.vibrate(30);
+    // ── 11. Floating SVG Heart Spawner ──
+    function spawnBurst(x, y, amount) {
+        for (let i = 0; i < amount; i++) {
+            const svg = document.createElement('div');
+            svg.className = 'flying-heart-svg';
+            svg.innerHTML = `
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#f43f5e">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>`;
+            svg.style.left = `${x}px`;
+            svg.style.top = `${y}px`;
+            svg.style.setProperty('--tx', `${(Math.random() - 0.5) * 120}px`);
+            document.body.appendChild(svg);
+            setTimeout(() => svg.remove(), 1200);
+        }
+    }
+
+    // ── 12. Floating Nav Smooth Scroll ──
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.dataset.target;
+            const el = document.getElementById(targetId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                navButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
         });
     });
 
