@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>En Uyir Sharmila-ku | An Animated Short Film</title>
+    <title>En Uyir Sharmila-ku | Complete Animated Story</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,50 +11,47 @@
 </head>
 <body class="cinema-body">
 
-    <!-- WebGL/Canvas Visual Engine Layers -->
+    <!-- WebGL / Canvas Background & Ambient Layers -->
     <canvas id="cinemaCanvas" class="cinema-canvas"></canvas>
     <div class="cinematic-vignette"></div>
     <div class="ambient-spotlight" id="ambientSpotlight"></div>
 
-    <!-- Cinematic Audio Synthesizer Toggle -->
+    <!-- Web Audio Synthesizer Atmosphere Toggle -->
     <div class="audio-control-hub">
-        <button id="synthAudioBtn" class="hud-circle-btn" aria-label="Toggle Atmosphere">
+        <button id="synthAudioBtn" class="hud-circle-btn" aria-label="Toggle Atmosphere Music">
             <svg class="icon-music" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9 18V5l12-2v13"></path>
                 <circle cx="6" cy="18" r="3"></circle>
                 <circle cx="18" cy="16" r="3"></circle>
             </svg>
-            <span class="hud-tooltip">Atmosphere Audio</span>
+            <span class="hud-tooltip">Atmosphere Music</span>
         </button>
     </div>
 
-    <!-- Director Timeline HUD -->
+    <!-- Director HUD Header -->
     <header class="movie-hud-header">
         <div class="hud-title-wrap">
-            <span class="hud-live-tag"><span class="hud-red-dot"></span> SCENE <span id="sceneNumber">01</span> / 05</span>
+            <span class="hud-live-tag"><span class="hud-red-dot"></span> SCENE <span id="sceneNumber">01</span> / 07</span>
             <h1 class="hud-main-title">En Uyir Sharmila-ku</h1>
         </div>
         <div class="act-navigation-pills">
             <button class="act-pill active" data-act="0">Act I: Silence</button>
-            <button class="act-pill" data-act="1">Act II: Zero</button>
-            <button class="act-pill" data-act="2">Act III: Innocence</button>
-            <button class="act-pill" data-act="3">Act IV: Runway</button>
-            <button class="act-pill" data-act="4">Act V: Promise</button>
+            <button class="act-pill" data-act="1">Act II: That Night</button>
+            <button class="act-pill" data-act="2">Act III: Zero Paradox</button>
+            <button class="act-pill" data-act="3">Act IV: Laptop & Watch</button>
+            <button class="act-pill" data-act="4">Act V: Innocence</button>
+            <button class="act-pill" data-act="5">Act VI: Runway</button>
+            <button class="act-pill" data-act="6">Act VII: Promise</button>
         </div>
     </header>
 
-    <!-- MAIN MOVIE STAGE (VIEWPORT) -->
+    <!-- MAIN CINEMATIC VIEWPORT -->
     <main class="movie-stage" id="movieStage">
 
-        <!-- ================= ACT 1: THE FORGOTTEN SCREEN ================= -->
+        <!-- ================= ACT 1: THE FORGOTTEN ROUTINE ================= -->
         <section class="movie-scene active" id="act1" data-index="0">
-            <div class="scene-skyline">
-                <div class="sky-clouds" id="skyClouds1"></div>
-            </div>
-
-            <!-- Animated Characters Stage -->
             <div class="character-duo-stage">
-                <!-- Sakthi (Boy Character SVG) -->
+                <!-- Sakthi (Boy Rig) -->
                 <div class="character-rig char-sakthi" id="rigSakthi">
                     <svg viewBox="0 0 160 260" class="char-svg">
                         <defs>
@@ -67,42 +64,33 @@
                                 <stop offset="100%" stop-color="#0284c7"/>
                             </linearGradient>
                         </defs>
-                        <!-- Shadow -->
                         <ellipse cx="80" cy="245" rx="45" ry="10" fill="rgba(0,0,0,0.35)" class="char-shadow"/>
-                        <!-- Body Rig -->
                         <g class="char-torso">
                             <rect x="50" y="110" width="60" height="85" rx="14" fill="url(#sakthiShirt)"/>
-                            <!-- Legs -->
                             <rect x="56" y="190" width="18" height="50" rx="9" fill="#1e293b"/>
                             <rect x="86" y="190" width="18" height="50" rx="9" fill="#1e293b"/>
                         </g>
-                        <!-- Arms -->
                         <g class="char-arms">
-                            <path d="M50 125 C 30 150, 35 180, 52 185" stroke="url(#sakthiShirt)" stroke-width="14" stroke-linecap="round" fill="none" class="arm-left"/>
-                            <path d="M110 125 C 130 145, 125 175, 105 185" stroke="url(#sakthiShirt)" stroke-width="14" stroke-linecap="round" fill="none" class="arm-right"/>
+                            <path d="M50 125 C 30 150, 35 180, 52 185" stroke="url(#sakthiShirt)" stroke-width="14" stroke-linecap="round" fill="none"/>
+                            <path d="M110 125 C 130 145, 125 175, 105 185" stroke="url(#sakthiShirt)" stroke-width="14" stroke-linecap="round" fill="none"/>
                         </g>
-                        <!-- Head -->
                         <g class="char-head" id="sakthiHead">
                             <rect x="42" y="32" width="76" height="80" rx="38" fill="url(#sakthiSkin)"/>
-                            <!-- Hair -->
                             <path d="M38 48 C 38 18, 122 18, 122 48 C 110 32, 60 30, 38 48 Z" fill="#0f172a"/>
-                            <!-- Face Eyes -->
-                            <circle cx="62" cy="72" r="5" fill="#0f172a" class="eye eye-left"/>
-                            <circle cx="98" cy="72" r="5" fill="#0f172a" class="eye eye-right"/>
-                            <!-- Pupils -->
-                            <circle cx="63" cy="72" r="2" fill="#ffffff" class="pupil pupil-left"/>
-                            <circle cx="99" cy="72" r="2" fill="#ffffff" class="pupil pupil-right"/>
-                            <!-- Mouth -->
-                            <path d="M70 94 Q 80 98, 90 94" stroke="#9a3412" stroke-width="3" stroke-linecap="round" fill="none" class="char-mouth"/>
+                            <circle cx="62" cy="72" r="5" fill="#0f172a"/>
+                            <circle cx="98" cy="72" r="5" fill="#0f172a"/>
+                            <circle cx="63" cy="72" r="2" fill="#ffffff"/>
+                            <circle cx="99" cy="72" r="2" fill="#ffffff"/>
+                            <path d="M70 94 Q 80 98, 90 94" stroke="#9a3412" stroke-width="3" stroke-linecap="round" fill="none"/>
                         </g>
                     </svg>
                     <div class="char-thought-bubble">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                         <span>Message Paakkalayae...</span>
                     </div>
                 </div>
 
-                <!-- Sharmila (Girl Character SVG) -->
+                <!-- Sharmila (Girl Rig) -->
                 <div class="character-rig char-sharmila" id="rigSharmila">
                     <svg viewBox="0 0 160 260" class="char-svg">
                         <defs>
@@ -116,97 +104,163 @@
                             </linearGradient>
                         </defs>
                         <ellipse cx="80" cy="245" rx="45" ry="10" fill="rgba(0,0,0,0.35)" class="char-shadow"/>
-                        <!-- Long Hair Back Layer -->
                         <path d="M30 50 C 15 130, 25 210, 50 220 C 50 180, 50 100, 50 60 Z" fill="#18181b"/>
                         <path d="M130 50 C 145 130, 135 210, 110 220 C 110 180, 110 100, 110 60 Z" fill="#18181b"/>
-                        <!-- Torso & Dress -->
                         <g class="char-torso">
-                            <path d="M52 110 L108 110 L122 195 L38 195 Z" fill="url(#sharmilaDress)" rx="10"/>
+                            <path d="M52 110 L108 110 L122 195 L38 195 Z" fill="url(#sharmilaDress)"/>
                             <rect x="60" y="195" width="14" height="45" rx="7" fill="#fed7aa"/>
                             <rect x="86" y="195" width="14" height="45" rx="7" fill="#fed7aa"/>
                         </g>
-                        <!-- Head -->
                         <g class="char-head" id="sharmilaHead">
                             <rect x="42" y="32" width="76" height="80" rx="38" fill="url(#sharmilaSkin)"/>
-                            <!-- Front Bangs Hair -->
                             <path d="M38 48 C 38 15, 122 15, 122 48 C 105 35, 90 42, 80 36 C 70 42, 55 35, 38 48 Z" fill="#18181b"/>
-                            <!-- Eyes with soft lashes -->
                             <circle cx="62" cy="72" r="5" fill="#18181b"/>
                             <circle cx="98" cy="72" r="5" fill="#18181b"/>
                             <circle cx="63" cy="70" r="2" fill="#ffffff"/>
                             <circle cx="99" cy="70" r="2" fill="#ffffff"/>
-                            <!-- Smile -->
                             <path d="M72 92 Q 80 98, 88 92" stroke="#be123c" stroke-width="2.5" stroke-linecap="round" fill="none"/>
                         </g>
                     </svg>
                 </div>
             </div>
 
-            <!-- Dialog Subtitle & Cinematic Script Box -->
             <div class="dialogue-card-scaffold">
                 <div class="dialogue-header">
-                    <span class="dialogue-speaker">Scene 01 // The Unread Screen</span>
-                    <span class="dialogue-status">Status: Waiting for her...</span>
+                    <span class="dialogue-speaker">Scene 01 // Namba Munna Maari Illa</span>
+                    <span class="dialogue-status">Status: Waiting...</span>
                 </div>
                 <div class="dialogue-content">
-                    <p class="dialogue-tamil">Namba munna maari ippo pesuradhey illa ma... Munna yellam evlo neram pesuvom, neraiya pesuvom, pesitey iruppom la?</p>
-                    <p class="dialogue-tamil-sub">Morning, afternoon, night — call panni "Saapittiya?" nu kekkadha naal irukka? Illa. Aana ippo yellam naan kekkuradhu illa, yen theriyuma? Unakku pudikkadhu nu therinjikitten...</p>
+                    <p class="dialogue-tamil">Namba munna maari pesuradhey illa amma... thaan eppadi... Munna yellam romba neram pesuvom, neraiya pesuvom, pesitey iruppom.</p>
+                    <p class="dialogue-tamil-sub">Ippo yellam suthama pesuradhu illa. Morning, afternoon, and night call panni naan un kitta "Saapittiya?" nu kekkadha naal irukka? Illa. Aana ippo yellam naan kekkuradhu illa... because unakku pudikkadhu.</p>
                     <div class="interactive-tag-box">
-                        <span class="tag-pink">En mela thaan thappu</span>
-                        <span class="tag-aqua">Sorry apdi nadandhukittadhukku</span>
+                        <span class="tag-pink">Sorry apdi nadandhukittadhukku...!</span>
+                        <span class="tag-aqua">En mela thaan thappu..!</span>
                     </div>
                 </div>
                 <div class="dialogue-controls">
                     <button class="cinema-next-action" onclick="goToAct(1)">
-                        <span>Next Act: The Zero Paradox</span>
+                        <span>Next Scene: Antha Night & Aasai</span>
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ================= ACT 2: THE MATHEMATICAL ZERO ================= -->
+        <!-- ================= ACT 2: THAT NIGHT & THE FEAR ================= -->
         <section class="movie-scene" id="act2" data-index="1">
+            <div class="scene-anim-graphic">
+                <div class="night-memory-box">
+                    <div class="memory-glow-item">
+                        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--pink-accent)" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span>Night Un Kooda Irundhu</span>
+                    </div>
+                    <div class="memory-glow-item">
+                        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--aqua-accent)" stroke-width="1.8"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.5a2 2 0 0 0 1.58 1.63L8 11.5v9.5a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-9.5l3.56-.68a2 2 0 0 0 1.58-1.63l.58-3.5a2 2 0 0 0-1.34-2.23z"/></svg>
+                        <span>Dress Iron Panni & Pack Panni</span>
+                    </div>
+                    <div class="memory-glow-item">
+                        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--pink-accent)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                        <span>Veliya Chicken Saaptu</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dialogue-card-scaffold">
+                <div class="dialogue-header">
+                    <span class="dialogue-speaker">Scene 02 // En Aasaiyum Sudden Shock-um</span>
+                    <span class="dialogue-status">Emotion: Sudden Silence</span>
+                </div>
+                <div class="dialogue-content">
+                    <p class="dialogue-tamil">Enakku theriyum epdi nadakkum nu, athaan naan appovey "poren" nu sonnen. Naan thappana motive-la anga irukkanum nu sollala, un kooda konjam time spend pannanum nu nenachi sonnen.</p>
+                    <p class="dialogue-tamil-sub">Night un kooda irundhu, dress yellam iron panni pack panni, veliya chicken saaptu... anga vandhadhukku apparam thaan neraiya thonuchu...! Sudden-ah nee "Venaam po" nu sonna odaney oru maari aakidichu.........!</p>
+                    <p class="dialogue-tamil-sub highlight-fear">En mela thaan thappu... bayama irukku amma nee vittu poiduviyo nu. Actually naan unna nalla vachikkanum and happy-ah vachikkanum nu thaan nenaikiren. Unakkey theriyum naan unna eppadi treat pannuvaen nu...!</p>
+                </div>
+                <div class="dialogue-controls">
+                    <button class="cinema-next-action" onclick="goToAct(2)">
+                        <span>Next Scene: The Zero Paradox & Expectations</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ACT 3: THE MATHEMATICAL ZERO & EFFORT ================= -->
+        <section class="movie-scene" id="act3" data-index="2">
             <div class="cosmic-zero-core">
                 <div class="zero-portal-ring" id="zeroPortal">
                     <div class="zero-digital-num" id="digitalZero">0</div>
                     <div class="zero-pulse-radiance"></div>
                 </div>
                 <div class="zero-interactive-instructions">
-                    <p>Tap and drag the Zero to see how my world spins empty without you</p>
+                    <p>Tap / drag ZERO to see how my world spins empty without you</p>
                 </div>
             </div>
 
             <div class="dialogue-card-scaffold">
                 <div class="dialogue-header">
-                    <span class="dialogue-speaker">Scene 02 // Mathematical Reality</span>
-                    <span class="dialogue-status">Core Emotion: Absolute Vulnerability</span>
+                    <span class="dialogue-speaker">Scene 03 // Effort & Priority</span>
+                    <span class="dialogue-status">Truth & Longing</span>
                 </div>
                 <div class="dialogue-content">
-                    <p class="dialogue-tamil prominent">"Nee illana naan verum <span class="text-glow-pink">ZERO</span> dhi ma... En ulagamey nee thaan."</p>
-                    <p class="dialogue-tamil-sub">Enakku vera edhuvumey venaam. Un kooda konja neram pesanum, un kooda konjam time spend pannanum... adhu mattum thaan en aasai. Naan potta effort, naan kaattina love yaarum panna maatanga ma. Naan kudutha care yaarum kudukka maattanga.</p>
+                    <p class="dialogue-tamil prominent">"Nee illana naan verum <span class="text-glow-pink">ZERO</span> dha... En ulagamey nee thaan."</p>
+                    <p class="dialogue-tamil-sub">Aana nee ennaiya unna maari 1% kooda treat panradhu illa. Enakkum irundhuchu expectations — nee ennaiya eppadi nadathanum, eppadi treat pannanum nu. Ippo edhuvum illa, nee kooda irundha mattum podhum.</p>
+                    <p class="dialogue-tamil-sub">Naan paatha varaikkum... <strong>Naan potta effort, naan panna love yaarum pannala. Naan kudutha care yaarum kudukkala.</strong> I love you. Naan pada pada nu pesuradhukkum, pada pada panradhukkum orey bayam thaan — nee "venaam poren poren" nu solliduviyo nu oru bayam thaan amma, mathapadi enakku onnum illa. Namba munna maari nalla pesikittaaley yellam ok thaan...</p>
                 </div>
                 <div class="dialogue-controls">
-                    <button class="cinema-next-action" onclick="goToAct(2)">
-                        <span>Next Act: Innocent Sharmila</span>
+                    <button class="cinema-next-action" onclick="goToAct(3)">
+                        <span>Next Scene: Laptop Typing & Watch Link</span>
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ================= ACT 3: INNOCENCE & MEMORIES ================= -->
-        <section class="movie-scene" id="act3" data-index="2">
+        <!-- ================= ACT 4: LAPTOP MESSAGES, WATCH LINK & CALLS ================= -->
+        <section class="movie-scene" id="act4" data-index="3">
+            <div class="scene-anim-graphic">
+                <div class="device-tech-showcase">
+                    <div class="tech-card-pulse">
+                        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="var(--pink-accent)" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <span>Laptop-la Type Panni Send Pannen</span>
+                    </div>
+                    <div class="tech-card-pulse">
+                        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="var(--aqua-accent)" stroke-width="1.8"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>
+                        <span>Watch Link Afternoon Send Panni Evening Delete Pannen</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dialogue-card-scaffold">
+                <div class="dialogue-header">
+                    <span class="dialogue-speaker">Scene 04 // Priority & Unread Messages</span>
+                    <span class="dialogue-status">Behind Every Long Message</span>
+                </div>
+                <div class="dialogue-content">
+                    <p class="dialogue-tamil">Nee munna yellam yellathukkum call pannuva, yellamey call panni solluva... Chumma irundhaalum sari nee call pannuva. Ippo yellam naan neraiya moora call pannaalum edukkaradhu illa... WhatsApp-la message send panna reply vidu, paakkardhu kooda illa. Enakku evlo kashtama irukkum...</p>
+                    <p class="dialogue-tamil-sub">Aana nee call pannumbodhu idhai pathi kekka maaten, normal-ah pesuven. Enakku puriyudhu un work antha maari nu. Ore maari aasaiya irukkum — nee Maha, Nishanth kitta irukkura maari jolly-ah en kitta irukkanum nu yekkama irukkum... aana illa.</p>
+                    <p class="dialogue-tamil-sub">Nee romba busy-ah irukka ok, but appo appo call panni pesa try panraen. Yeppavaachum nee call panni illa message panni naan reply pannama irukkena da? Yen naan apdi odaney odaney reply panraen, call edukkurana theriyuma? <strong>Of course priority thaan, and avlo yekkathula irukken nee call pannuva nu!</strong></p>
+                    <p class="dialogue-tamil-sub">Oruthan evlo long message send panraan nu, avan evlo pesanum nu yekkama iruppaan nu yosichirukkiya? Actually un kooda pesura maari pesitey thaan type pannuven. Phone-la type panna time aagum nu sollittu laptop-la type panni send pannuven. Watch link send pannen, adhaiye paakkala... evlo periya message yellam eppadi paappa? Paravaala, watch link edukkaadha maari afternoon send panni evening delete pannitten nee paakkala nu... Nee edukka maatten nu theriyum!</p>
+                </div>
+                <div class="dialogue-controls">
+                    <button class="cinema-next-action" onclick="goToAct(4)">
+                        <span>Next Scene: Innocent Sharmila & Memories Album</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ACT 5: INNOCENT SHARMILA & SHARED ALBUM ================= -->
+        <section class="movie-scene" id="act5" data-index="4">
             <div class="nostalgia-gallery-flow">
                 <div class="memory-projector">
-                    <div class="projector-beam"></div>
                     <div class="projector-card-interactive" id="projectorCard">
-                        <div class="memory-badge-top">Google Photos Shared Vault</div>
+                        <div class="memory-badge-top">Google Photos Shared Album Vault</div>
                         <h3>Paa! Our Memories</h3>
-                        <p>Namba serndhu siricha ovvoru azhagana naaloda photos yellam intha album-la irukku. Click panni paaru ma...</p>
+                        <p>Namba serndhu siricha, kadandhu vandha ninaivugalin photos yellam intha album-la irukku[cite: 1]. Click panni paaru ma...</p>
                         <a href="https://photos.app.goo.gl/XpV3sCFYEY61ybeE9" target="_blank" rel="noopener noreferrer" class="album-neon-launch">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            <span>Open Memories Album</span>
+                            <span>Open Memories Album[cite: 1]</span>
                         </a>
                     </div>
                 </div>
@@ -214,24 +268,24 @@
 
             <div class="dialogue-card-scaffold">
                 <div class="dialogue-header">
-                    <span class="dialogue-speaker">Scene 03 // The Innocent Connection</span>
-                    <span class="dialogue-status">Memory Reel</span>
+                    <span class="dialogue-speaker">Scene 05 // En Innocent Sharmila</span>
+                    <span class="dialogue-status">The True Connection</span>
                 </div>
                 <div class="dialogue-content">
-                    <p class="dialogue-tamil">Nee avlo innocent theriyuma... Enakku en pazhaiya innocent Sharmila venum ma.</p>
-                    <p class="dialogue-tamil-sub">Yellathaiyum en kitta kekkanum, naan sollitharanum, naan sollikuduthadhai pannitu vandhu "Pah naan ippadi pannaen, enakku credits kedachadhu!" nu solluviye... antha connect enga pochu ma? Neeye "namba sera maattom" nu sollumbodhu en idhayamey vedichidum pola irukku 😭.</p>
+                    <p class="dialogue-tamil">Nee avlo innocent theriyuma... Enakku en pazhaiya innocent Sharmila venum. Ellamey en kitta kekkanum, naan kathukudanum, ava kathukkanum, apparam naan solli kuduthadha pannittu vandhu en kitta sollanum — "Pah naan ippadi pannen, enakku intha credits kedachadhu!" like antha maari.</p>
+                    <p class="dialogue-tamil-sub">Athukkunu yellamey nee ennaiya depend panni irukkanum nu solla varala... because edhaiyum nee thappa understand pannippa. Nee apdi thaan — namba onnu sonna nee adhai vera maari nenachippa. Unakku thonudhu illa naan maarittaen nu? Same enakkum thaan ma... nee eppadi irukkura paappa illa! I think athunaala thaan naan ippadi panraen nu thonudhu. Un mela pazhi podala, again nee idhai vera maari understand pannippa.</p>
                 </div>
                 <div class="dialogue-controls">
-                    <button class="cinema-next-action" onclick="goToAct(3)">
-                        <span>Next Act: The Flight Runway</span>
+                    <button class="cinema-next-action" onclick="goToAct(5)">
+                        <span>Next Scene: The Safe Flight & Weekend Promise</span>
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ================= ACT 4: THE AIRPORT RUNWAY ================= -->
-        <section class="movie-scene" id="act4" data-index="3">
+        <!-- ================= ACT 6: THE AIRPORT RUNWAY & SAFE JOURNEY ================= -->
+        <section class="movie-scene" id="act6" data-index="5">
             <div class="runway-stage-area">
                 <div class="plane-flight-flightpath" id="flightCanvasBox">
                     <div class="flying-airplane-vector" id="airplaneVector">
@@ -239,41 +293,38 @@
                             <path d="M60 4L28 36M60 4L40 60L28 36L4 24L60 4Z" fill="rgba(56,189,248,0.12)"/>
                         </svg>
                     </div>
-                    <div class="runway-lights">
-                        <span></span><span></span><span></span><span></span><span></span><span></span>
-                    </div>
                 </div>
                 <div class="flight-checklist-grid">
                     <div class="flight-check-card"><span class="chk-dot"></span> Phone charge pottuko</div>
-                    <div class="flight-check-card"><span class="chk-dot"></span> Bathirama iru & enjoy pannu</div>
-                    <div class="flight-check-card"><span class="chk-dot"></span> Flight-la pogumbodhu video pannu</div>
-                    <div class="flight-check-card"><span class="chk-dot"></span> Dress next month super-ah vaangikalam</div>
+                    <div class="flight-check-card"><span class="chk-dot"></span> Paathu bathirama iru</div>
+                    <div class="flight-check-card"><span class="chk-dot"></span> Avanga kitta yellam romba vachikkadha, nee undu un work undu nu iru</div>
+                    <div class="flight-check-card"><span class="chk-dot"></span> Flight-la pogumbodhu video pannu & enjoy pannu</div>
                 </div>
             </div>
 
             <div class="dialogue-card-scaffold">
                 <div class="dialogue-header">
-                    <span class="dialogue-speaker">Scene 04 // Safe Journey & Pride</span>
-                    <span class="dialogue-status">Destination: Her Happiness</span>
+                    <span class="dialogue-speaker">Scene 06 // Safe Flight En Thangam</span>
+                    <span class="dialogue-status">Take Care of Yourself</span>
                 </div>
                 <div class="dialogue-content">
-                    <p class="dialogue-tamil prominent">"Mass thaan flight-la pora... Enakku romba perumaiya irukku papa!"</p>
-                    <p class="dialogue-tamil-sub">Safe-ah poidu vaa en thangam. Nee undu un work undu nu iru. Dress illa nu kavala padadha, next month namba ooruku pogadha weekend-la poi super-ah edukkalam ok va?</p>
+                    <p class="dialogue-tamil prominent">"Mass thaan flight-la pora... Enakku romba aasaiya & perumaiya irukku paappa!"</p>
+                    <p class="dialogue-tamil-sub">Sari paathu po, phone charge pottuko. Paathu bathirama iru. Avanga kitta yellam romba vachikkadha, nee undu un work undu nu iru. Enjoy pannu! Flight-la pogumbodhu video pannu. Dress illa nu kavalai padadha — next month vaangikkalam, yaedhavadhu oru weekend namba oorukku pogama irukkumbodhu vaa, neeyum yellam pottu paathu vaangikkalam ok va?</p>
+                    <p class="dialogue-tamil-sub">Paathu amma... Have a safe flight! Sari athan nee pora illa... nee kootu poova!</p>
                 </div>
                 <div class="dialogue-controls">
-                    <button class="cinema-next-action" onclick="goToAct(4)">
-                        <span>Final Act: The Hug & Promise</span>
+                    <button class="cinema-next-action" onclick="goToAct(6)">
+                        <span>Final Scene: Mannippu & Grand Hug Promise</span>
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ================= ACT 5: THE FINAL PROMISE ================= -->
-        <section class="movie-scene" id="act5" data-index="4">
+        <!-- ================= ACT 7: THE APOLOGY, LAST WARNING & HUG ================= -->
+        <section class="movie-scene" id="act7" data-index="6">
             <div class="grand-finale-converge">
                 <div class="heart-core-generator" id="heartCore">
-                    <div class="pulse-aura-rings"></div>
                     <svg viewBox="0 0 24 24" width="80" height="80" fill="url(#pinkGlowGrad)" class="final-heart-svg">
                         <defs>
                             <linearGradient id="pinkGlowGrad" x1="0" y1="0" x2="1" y2="1">
@@ -288,22 +339,23 @@
                 <div class="interactive-hug-dock">
                     <button class="giant-hug-trigger" id="giantHugTrigger">
                         <div class="trigger-fill-indicator" id="hugFillProgress"></div>
-                        <span class="trigger-text" id="hugTriggerText">Press & Hold for Hug</span>
+                        <span class="trigger-text" id="hugTriggerText">Press & Hold for Warm Hug</span>
                     </button>
-                    <p class="hug-sub-instruct">Hold for 3 seconds to send your hug back</p>
+                    <p class="hug-sub-instruct">Hold for 3 seconds to send your response</p>
                 </div>
             </div>
 
             <div class="dialogue-card-scaffold finale-box">
                 <div class="dialogue-header">
-                    <span class="dialogue-speaker">Scene 05 // The Eternal Promise</span>
-                    <span class="dialogue-status">Ending Note</span>
+                    <span class="dialogue-speaker">Scene 07 // Mannichidu Amma... Enimay Crt-ah Iruppen</span>
+                    <span class="dialogue-status">Heartfelt Close</span>
                 </div>
                 <div class="dialogue-content">
-                    <p class="dialogue-tamil prominent">"I Love You So Much Mah... Enimay crt-ah iruppen."</p>
-                    <p class="dialogue-tamil-sub">Sorry... Mannichidu amma! Idhudhaan enakku last warning. Enakku un kitta neraiya pesanum mah. Yeppavachum time kedacha sollu, naan pesuren nee kelu... aprom nee pesu naan kekkuren. Un kooda pesanum nu aavala kaathuttu iruppen.</p>
+                    <p class="dialogue-tamil prominent">"Yesterday pannadhu en mela thappu thaan, enakku nalla theriyudhu. Naan realise pannittaen."</p>
+                    <p class="dialogue-tamil-sub">Bayama irukku amma... namba onnu sera maattom nu mathavanga sonna paravaala, aana neeye sollradhu romba romba kashtama irukku 😭. Enimay apdi nadakkaadhu, apdi panna maatten...! Sorry sorry, mannichidu mannichidu... idhudhaan last warning. Idhu naan neraiya moora sollittaen, aana please... nee purinjipa nu nenaikiren. Sorry mah... I love you mah. Enimay crt-ah iruppen.</p>
+                    <p class="dialogue-tamil-sub">Enakku un kitta neraiya pesanum mah... Aana nee kekka maatta theriyum. Yeppavaachum time kedacha sollu — naan pesuren nee kelu, apparam nee sollu naan kekkuren. Sorry amma!</p>
                     <div class="movie-credits-sig">
-                        <span>Forever & always with love,</span>
+                        <span>Forever waiting and loving you,</span>
                         <h3>Un Sakthi</h3>
                     </div>
                 </div>
@@ -314,13 +366,13 @@
 
     <!-- Bottom Interactive Scrubber Bar -->
     <footer class="movie-timeline-scrubber">
-        <button class="scrub-btn" id="prevActBtn" aria-label="Previous Act">
+        <button class="scrub-btn" id="prevActBtn" aria-label="Previous Scene">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="scrub-track" id="scrubTrack">
             <div class="scrub-playhead" id="scrubPlayhead"></div>
         </div>
-        <button class="scrub-btn" id="nextActBtn" aria-label="Next Act">
+        <button class="scrub-btn" id="nextActBtn" aria-label="Next Scene">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
     </footer>
