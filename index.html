@@ -11,46 +11,48 @@
 </head>
 <body>
 
-    <!-- Ambient Dynamic Elements -->
-    <canvas id="starCanvas"></canvas>
+    <!-- Ambient Canvas & Background Floating Lights -->
+    <canvas id="ambientCanvas"></canvas>
     <div id="glowSpotlight" class="glow-spotlight"></div>
     <div class="scroll-progress-bar" id="scrollProgress"></div>
 
-    <!-- ===== INTERACTIVE INTRO ENVELOPE ===== -->
-    <section class="intro-curtain" id="introCurtain">
-        <div class="envelope-box" id="envelopeBox">
-            <div class="envelope-glow"></div>
-            <div class="envelope-icon">
-                <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                </svg>
+    <!-- ===== INTERACTIVE ENVELOPE UNSEALING SEQUENCE ===== -->
+    <section class="envelope-curtain" id="envelopeCurtain">
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="envelope-3d" id="envelope3D">
+                <div class="envelope-flap" id="envelopeFlap"></div>
+                <div class="envelope-pocket">
+                    <div class="wax-seal" id="waxSeal">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <div class="letter-preview">
+                        <p>Oru Unmaiyaana Kadidham...</p>
+                        <span>Unakkaga mattumey</span>
+                    </div>
+                </div>
             </div>
-            <h2>Oru Unmaiyana Kadidham...</h2>
-            <p>Unakkaga mattumey senjathu</p>
-            <button class="open-envelope-btn" id="openEnvelopeBtn">
-                <span>Thiranthu Paaru</span>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </button>
+            <p class="seal-tap-guide">Seal-ai click panni letter-ai thiravum</p>
         </div>
     </section>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- ===== MAIN PAGE ===== -->
     <main class="page-container" id="pageContainer">
 
-        <!-- Mobile Floating Nav Bar -->
+        <!-- Mobile Floating Navigation Dock -->
         <nav class="floating-nav" id="floatingNav">
-            <button class="nav-btn active" data-target="hero" aria-label="Hero">
+            <button class="nav-btn active" data-target="hero" aria-label="Home">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
             </button>
-            <button class="nav-btn" data-target="quoteSection" aria-label="Quote">
+            <button class="nav-btn" data-target="quoteSection" aria-label="Feelings">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
             </button>
-            <button class="nav-btn" data-target="cardsSection" aria-label="Words">
+            <button class="nav-btn" data-target="cardsSection" aria-label="Heart Words">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <button class="nav-btn" data-target="memoriesSection" aria-label="Memories">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             </button>
             <button class="nav-btn" data-target="lettersSection" aria-label="Open When">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
@@ -62,24 +64,24 @@
 
         <!-- HERO SECTION -->
         <section class="section hero-section" id="hero">
-            <div class="badge-pill pulse-badge">
+            <div class="badge-pill">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                 <span>Unakkaga Mattumey</span>
             </div>
             
-            <h1 class="hero-title" id="typewriterText"></h1>
-            <p class="hero-sub">Un mela uyirai vachirukura un Sakthi</p>
+            <h1 class="hero-title" id="typewriterTarget"></h1>
+            <p class="hero-sub">Un mela uyiraiye vachirukkum un Sakthi</p>
 
             <div class="interactive-banner" id="bannerCard">
-                <div class="banner-icon-spin">
-                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="var(--accent)" stroke-width="1.8">
+                <div class="banner-icon-glow">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--pink-accent)" stroke-width="2">
                         <rect x="5" y="2" width="14" height="20" rx="2"/>
                         <line x1="12" y1="18" x2="12" y2="18.01" stroke-width="3" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <div class="banner-body">
-                    <p class="banner-head">WhatsApp-la message anupina paakkavey maattengura ma...</p>
-                    <p class="banner-desc">Athanaala thaan en manasula irukura bharatha solla intha page create pannen. Konjam neram eduthu idhai muzhusaa padi ma, please.</p>
+                    <p class="banner-head">WhatsApp-la evlo periya message anupinaalum paakkavey maattengura ma...</p>
+                    <p class="banner-desc">Athanaala thaan en manasula irukkura ellaa baaraththeyum solla intha chinna pakkathai unakkaga uruvaakkinaen. Konjam neram eduthu muzhusaa padi ma, please.</p>
                 </div>
             </div>
         </section>
@@ -87,110 +89,145 @@
         <!-- EMOTIONAL ZERO & HEARTBEAT SECTION -->
         <section class="section" id="quoteSection">
             <div class="interactive-quote-card" id="quoteCard">
-                <div class="pulse-soundwave" id="soundwaveContainer">
+                <div class="soundwave-anim" id="soundwaveBox">
                     <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
                 </div>
                 <blockquote>
                     Nee illana naan verum <span class="zero-interactive" id="zeroTrigger">ZERO</span> dhi ma... En ulagamey nee thaan. Enakku vera edhuvumey venaam — un kooda konja neram pesanum, konjam time spend pannanum...
                 </blockquote>
-                <p class="quote-sub-highlight">Adhu mattum thaan en orey aasa.</p>
-                <div class="interactive-hint">
+                <p class="quote-highlight">Adhu mattum thaan en orey aasai.</p>
+                <div class="tap-hint">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    <span>Tap ZERO for heart pulse</span>
+                    <span>ZERO-va click panni paaru ma</span>
                 </div>
             </div>
         </section>
 
-        <!-- EMOTION CARDS (3D Interactive Tilt & Tap Expand) -->
+        <!-- EMOTION CARDS (3D Physics Tilt & Animated Icons) -->
         <section class="section" id="cardsSection">
             <div class="section-header">
-                <span class="sub-label">En Manadhil Iruppavai</span>
-                <h2>En Ninaivugalum Aasaigalum</h2>
+                <span class="sub-label">En Idhayam Pesugiradhu</span>
+                <h2>Namba Ninaivugalum En Bayangalum</h2>
             </div>
 
             <div class="cards-grid">
 
-                <div class="card-item interactive-tilt" data-glow="rose">
+                <div class="card-item interactive-tilt" data-theme="pink">
                     <div class="card-top-bar">
-                        <span class="card-index">01</span>
-                        <div class="svg-circle-icon">
+                        <span class="card-num">01</span>
+                        <div class="svg-badge pink">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22c-4-3-8-7-8-11a4 4 0 0 1 8 0 4 4 0 0 1 8 0c0 4-4 8-8 11z"/><line x1="12" y1="8" x2="12" y2="14"/></svg>
                         </div>
                     </div>
                     <h3>Namba Munna Maari Pesuradhey Illa...</h3>
-                    <p>Munna yellam evlo neram pesuvom ma... neraiya pesitey irupom la? Ippo suthama pesuradhu illa. Morning, afternoon, night — call panni "Saapitiya?" nu kekkadha naal irukka? Illa.</p>
-                    <p class="whisper-box">Sorry ma... apdi nadanthukittadhuku. En mela thaan thappu...</p>
+                    <p>Munna yellam evlo neram pesuvom ma... neraiya pesitey irupom la? Ippo suthama pesuradhu illa. Morning, afternoon, night — call panni "Saapittiya?" nu kekkadha naal irukka? Illa.</p>
+                    <p class="whisper-box">Sorry ma... apdi nadandhukittadhukku. En mela thaan thappu.</p>
                 </div>
 
-                <div class="card-item interactive-tilt" data-glow="purple">
+                <div class="card-item interactive-tilt" data-theme="aqua">
                     <div class="card-top-bar">
-                        <span class="card-index">02</span>
-                        <div class="svg-circle-icon">
+                        <span class="card-num">02</span>
+                        <div class="svg-badge aqua">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
                         </div>
                     </div>
-                    <h3>En Aasai & En Bayam...</h3>
-                    <p>Un kooda konjam time spend pannanum nu thaan nenachen. Aana sudden-ah nee "Venaam po" nu sonna odaney... nenjey oru maari aaidichi.</p>
+                    <h3>En Aasaiyum En Bayamum...</h3>
+                    <p>Un kooda irundhu dress iron panni, pack panni kuduthu, chicken saaptu... un kooda konjam neram jolly-ah irukkanum nu thaan nenachaen. Sudden-ah nee "Venaam po" nu sonna odaney nenjey oru maari aaiduchi.</p>
                     <p class="highlight-p">Romba bayama irukku amma, nee vittu poiduviyo nu...</p>
-                    <p class="whisper-box">Enakku un mela irukura care — yaarumey kuduthirukka maatanga.</p>
+                    <p class="whisper-box">Enakku un mela irukkura care — yaarumey kuduthurukka maatanga.</p>
                 </div>
 
-                <div class="card-item interactive-tilt" data-glow="cyan">
+                <div class="card-item interactive-tilt" data-theme="pink">
                     <div class="card-top-bar">
-                        <span class="card-index">03</span>
-                        <div class="svg-circle-icon">
+                        <span class="card-num">03</span>
+                        <div class="svg-badge pink">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         </div>
                     </div>
-                    <h3>Naan Potta Effort... Yaarum Panna Maatanga</h3>
-                    <p>Naan potta effort, naan panna love yaarum pannala. Aana nee ennai-ya un maari 1% kooda treat panradhu illa ma.</p>
-                    <p class="whisper-box">Un kooda iruntha mattum podhum... nee enakku avlo periya gift.</p>
+                    <h3>Naan Potta Effort... Yaarum Panna Maattanga</h3>
+                    <p>Naan potta effort, naan kaattina anbu yaarum kaatta maattanga. Aana nee ennaiya un maari 1% kooda treat panradhu illa ma.</p>
+                    <p class="whisper-box">Nee kooda irundha mattum podhum... nee enakku avlo periya varam.</p>
                 </div>
 
-                <div class="card-item interactive-tilt" data-glow="amber">
+                <div class="card-item interactive-tilt" data-theme="aqua">
                     <div class="card-top-bar">
-                        <span class="card-index">04</span>
-                        <div class="svg-circle-icon">
+                        <span class="card-num">04</span>
+                        <div class="svg-badge aqua">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                         </div>
                     </div>
                     <h3>Nee Call Pannumbodhellaam...</h3>
-                    <p>Ippo naan evlo moora call pannaalum edukkaradhu illa. WhatsApp-la message send panna — reply vidu, paakkardhu kooda illa.</p>
-                    <p class="whisper-box">Maha, Nishanth kitta jolly-ah irukura maari en kitta irukka maatiya nu oru yekkam enakku irukkum dhi...</p>
+                    <p>Ippo naan evlo moora call pannaalum edukkaradhu illa. WhatsApp-la message send panna — reply vidu, paakkardhu kooda illa. Enakku evlo kashtama irukkum theriyuma?</p>
+                    <p class="whisper-box">Maha, Nishanth kitta jolly-ah irukkura maari en kitta irukka maattiya nu oru yekkam enakku irukkum dhi...</p>
                 </div>
 
-                <div class="card-item interactive-tilt" data-glow="rose">
+                <div class="card-item interactive-tilt" data-theme="pink">
                     <div class="card-top-bar">
-                        <span class="card-index">05</span>
-                        <div class="svg-circle-icon">
+                        <span class="card-num">05</span>
+                        <div class="svg-badge pink">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </div>
                     </div>
                     <h3>En Pazhaya Innocent Sharmila Venum...</h3>
-                    <p>Yellathaiyum en kitta kekkanum, naan sollithaaranum — "Pah naan ippadi pannen, enakku credits kedachadhu!" nu solluviye... antha innocent Sharmila thaan enakku venum.</p>
-                    <p class="whisper-box">Neeye "sera maattom" nu sollum bodhu — en idhayamey vedichchidum pola irukku.</p>
+                    <p>Ellathaiyum en kitta kekkanum, naan sollitharanum — "Pah naan ippadi pannaen, enakku credits kedachadhu!" nu solluviye... antha innocent Sharmila thaan enakku venum.</p>
+                    <p class="whisper-box">Neeye "sera maattom" nu sollum bodhu — en idhayamey vedichidum pola irukku 😭.</p>
                 </div>
 
-                <div class="card-item interactive-tilt" data-glow="cyan">
+                <div class="card-item interactive-tilt" data-theme="aqua">
                     <div class="card-top-bar">
-                        <span class="card-index">06</span>
-                        <div class="svg-circle-icon">
+                        <span class="card-num">06</span>
+                        <div class="svg-badge aqua">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                         </div>
                     </div>
-                    <h3>Yen Odanei Reply Pannren?</h3>
-                    <p>Of course — nee enakku priority thaan. And avlo yekkathula irukken nee call pannuva nu... Jolly-ah pesuna adhey podhum enakku.</p>
-                    <p class="whisper-box">Nee illadha naatkal romba kastama irukku ma...</p>
+                    <h3>Yen Odanae Reply Panraen?</h3>
+                    <p>Of course — nee enakku priority thaan. And avlo yekkathula irukkaen nee call pannuva nu... Jolly-ah pesuna adhey podhum enakku.</p>
+                    <p class="whisper-box">Nee illadha naatkal romba kashtama irukku ma...</p>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- MEMORIES & GOOGLE PHOTOS ALBUM SECTION -->
+        <section class="section" id="memoriesSection">
+            <div class="section-header">
+                <span class="sub-label">Namba Kadhandha Paadhai</span>
+                <h2>Namba Ninaivugalin Thoguppu</h2>
+            </div>
+
+            <div class="album-portal-card" id="albumCard">
+                <div class="polaroid-stack">
+                    <div class="polaroid p1">
+                        <div class="polaroid-img-ph bg-pink">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <span>Un Snegam</span>
+                    </div>
+                    <div class="polaroid p2">
+                        <div class="polaroid-img-ph bg-aqua">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <span>Namba Payanam</span>
+                    </div>
+                </div>
+
+                <div class="album-info">
+                    <h3>Paa! Our Memories Album</h3>
+                    <p>Namba serndhu siricha, pesina, kadandhu vandha ovvoru azhagana nodiyum intha album-la irukku. Orey oru click panni paaru ma...</p>
+                    
+                    <a href="https://photos.app.goo.gl/XpV3sCFYEY61ybeE9" target="_blank" rel="noopener noreferrer" class="album-cta-btn" id="openAlbumBtn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        <span>Open Shared Album</span>
+                    </a>
+                </div>
             </div>
         </section>
 
         <!-- OPEN WHEN TAP-TO-FLIP LETTERS -->
         <section class="section" id="lettersSection">
             <div class="section-header">
-                <span class="sub-label">Interactive Notes</span>
-                <h2>Open When... (Tap Each Card)</h2>
+                <span class="sub-label">Unakkaga Oru Chella Pathivu</span>
+                <h2>Open When... (Card-ai Tap Pannu)</h2>
             </div>
 
             <div class="flip-grid">
@@ -198,14 +235,14 @@
                 <div class="flip-card" tabindex="0">
                     <div class="flip-inner">
                         <div class="flip-front">
-                            <div class="flip-icon">
-                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            <div class="flip-icon-wrap aqua">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                             </div>
                             <h4>Lonely-ah feel panna</h4>
-                            <span class="tap-badge">Tap to unseal</span>
+                            <span class="tap-badge">Click to unseal</span>
                         </div>
                         <div class="flip-back">
-                            <p>Nee lonely-ah feel panrumbodhu naan un pakkathulaye irukken nu nenachiko. Distance irukkalaam, work irukkalaam — but en nenjula nee mattum thaan eppavumey.</p>
+                            <p>Nee thaniya irukura maari feel panna — naan un pakkathulaye un kaila kai vachittu irukkaen nu nenachiko ma. En nenjula eppavumey nee mattum thaan.</p>
                         </div>
                     </div>
                 </div>
@@ -213,14 +250,14 @@
                 <div class="flip-card" tabindex="0">
                     <div class="flip-inner">
                         <div class="flip-front">
-                            <div class="flip-icon">
-                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                            <div class="flip-icon-wrap pink">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
                             </div>
                             <h4>Work romba stress aana</h4>
-                            <span class="tap-badge">Tap to unseal</span>
+                            <span class="tap-badge">Click to unseal</span>
                         </div>
                         <div class="flip-back">
-                            <p>Deep breath eduma. Nee flight-la pora alavuku valanthurukka, enakku romba peruma! Konjam thanni kudi, take a rest. Everything will be super fine.</p>
+                            <p>Oru deep breath edu ma. Nee flight-la pora alavukku grow aagirukka, enakku romba romba perumai! Take a break, konjam thanni kudi ma.</p>
                         </div>
                     </div>
                 </div>
@@ -228,14 +265,14 @@
                 <div class="flip-card" tabindex="0">
                     <div class="flip-inner">
                         <div class="flip-front">
-                            <div class="flip-icon">
-                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div class="flip-icon-wrap aqua">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                             </div>
-                            <h4>En mela kovam vantha</h4>
-                            <span class="tap-badge">Tap to unseal</span>
+                            <h4>En mela kovam vandha</h4>
+                            <span class="tap-badge">Click to unseal</span>
                         </div>
                         <div class="flip-back">
-                            <p>Romba sorry ma... genuinely sorry. Naan perfect illa but un mela vachirukura anbu 100% unmai. En thappai mannichidu amma.</p>
+                            <p>Romba sorry ma... unmaiyaave manasula irundhu sorry. Naan perfect illa but un mela vachirukkura anbu 100% unmai dhi. Mannichidu amma.</p>
                         </div>
                     </div>
                 </div>
@@ -243,14 +280,14 @@
                 <div class="flip-card" tabindex="0">
                     <div class="flip-inner">
                         <div class="flip-front">
-                            <div class="flip-icon">
-                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
+                            <div class="flip-icon-wrap pink">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
                             </div>
-                            <h4>Smile pannanum nu thonuna</h4>
-                            <span class="tap-badge">Tap to unseal</span>
+                            <h4>Sirikkanum nu thonuna</h4>
+                            <span class="tap-badge">Click to unseal</span>
                         </div>
                         <div class="flip-back">
-                            <p>Un kooda pesura maari pesitey thaan type pannuven! Phone-la slow aagum nu laptop-la type pannuven theriyuma! Watch link paakkala nu afternoon send panni evening delete pannen!</p>
+                            <p>Un kooda pesura maariye pesitey thaan type pannuven! Phone-la slow aagum nu laptop-la type pannuven theriyuma! Watch link paakkala nu afternoon anupi evening delete pannitaen!</p>
                         </div>
                     </div>
                 </div>
@@ -258,75 +295,71 @@
             </div>
         </section>
 
-        <!-- FLIGHT & PROMISE -->
+        <!-- SAFE JOURNEY FLIGHT CARD -->
         <section class="section">
             <div class="flight-interactive-card">
                 <div class="flight-icon-anim">
-                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--cyan)" stroke-width="1.8">
+                    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="var(--aqua-accent)" stroke-width="1.8">
                         <path d="M22 2L11 13"/>
                         <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
                     </svg>
                 </div>
                 <h3>Safe-ah Poidu Vaa En Thangam</h3>
                 <div class="flight-checklist">
-                    <label class="check-item">
-                        <input type="checkbox" checked disabled>
-                        <span class="custom-chk"></span>
-                        <span>Phone charge pottuko</span>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" checked disabled>
-                        <span class="custom-chk"></span>
-                        <span>Bathirama iru & enjoy pannu</span>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" checked disabled>
-                        <span class="custom-chk"></span>
-                        <span>Flight-la pogumbodhu video pannu</span>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" checked disabled>
-                        <span class="custom-chk"></span>
-                        <span>Dress next month namba ooruku pogadha weekend-la vangikalam</span>
-                    </label>
+                    <div class="check-item">
+                        <div class="custom-dot"></div>
+                        <span>Phone-ku charge pottuko</span>
+                    </div>
+                    <div class="check-item">
+                        <div class="custom-dot"></div>
+                        <span>Bathirama iru & work-ai enjoy pannu</span>
+                    </div>
+                    <div class="check-item">
+                        <div class="custom-dot"></div>
+                        <span>Flight-la pogumbodhu oru chinna video pannu</span>
+                    </div>
+                    <div class="check-item">
+                        <div class="custom-dot"></div>
+                        <span>Dress pathi kavalai padadha — adutha maasam oorukku pogadha weekend-la vaangikkalam</span>
+                    </div>
                 </div>
                 <p class="flight-status-note">Mass thaan flight-la pora — Enakku romba perumaiya irukku papa!</p>
             </div>
         </section>
 
-        <!-- INTERACTIVE HUG & LOVE TRANSMITTER -->
+        <!-- INTERACTIVE HUG (PRESS & HOLD) & LOVE COUNTER -->
         <section class="section" id="actionSection">
             <div class="action-dock">
                 <h2>I Love You So Much Mah</h2>
-                <p class="action-desc">Nee illatha naan verum ZERO dhi. Un kooda pesanum nu aavala kaathuttu irupen.</p>
+                <p class="action-desc">Nee illadha naan verum ZERO dhi. Un kooda pesanum nu aavala kaathuttu iruppaen.</p>
 
                 <!-- Hold To Hug Button -->
                 <div class="hold-hug-container">
                     <button class="hold-hug-btn" id="holdHugBtn">
-                        <div class="progress-ring-overlay" id="holdProgress"></div>
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <div class="progress-fill-overlay" id="holdProgress"></div>
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
-                        <span id="hugBtnText">Press & Hold for Hug</span>
+                        <span id="hugBtnText">Enakkaaga Press Panni Pudi (Hug)</span>
                     </button>
                     <div class="hug-feedback" id="hugFeedback">
-                        <div class="feedback-badge">Hug Received</div>
+                        <div class="feedback-badge">Hug Received With Love</div>
                         <p>Romba Sandhosham ma... Enakku nee mattum thaan! Safe journey en uyirey.</p>
                     </div>
                 </div>
 
-                <!-- Tap Love Meter -->
+                <!-- Tap Love Hearts -->
                 <div class="love-counter-box">
                     <button class="tap-love-btn" id="tapLoveBtn">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--accent)" stroke="none">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--pink-accent)" stroke="none">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
-                        <span>Tap to Send Love</span>
+                        <span>Tap to Send Anbu</span>
                     </button>
                     <div class="meter-bar-track">
                         <div class="meter-bar-fill" id="meterFill"></div>
                     </div>
-                    <span class="meter-count-text"><span id="loveCount">0</span> hearts sent</span>
+                    <span class="meter-count-text"><span id="loveCount">0</span> anbugal send pannirukka</span>
                 </div>
 
                 <div class="final-sig">

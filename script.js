@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── 1. Starfield Particle Background (Smooth Canvas) ──
-    const canvas = document.getElementById('starCanvas');
+    // ── 1. Soft Light Particles Canvas (Light Pink & Aqua Ambient) ──
+    const canvas = document.getElementById('ambientCanvas');
     const ctx = canvas.getContext('2d');
-    let stars = [];
+    let particles = [];
+    const colors = ['rgba(244, 114, 182, 0.4)', 'rgba(56, 189, 248, 0.4)', 'rgba(251, 207, 232, 0.3)'];
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -12,65 +13,70 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    for (let i = 0; i < 70; i++) {
-        stars.push({
+    for (let i = 0; i < 50; i++) {
+        particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 1.8 + 0.5,
-            alpha: Math.random() * 0.7 + 0.2,
-            speed: Math.random() * 0.3 + 0.1
+            radius: Math.random() * 2.5 + 1,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speedY: Math.random() * 0.4 + 0.1,
+            speedX: (Math.random() - 0.5) * 0.2
         });
     }
 
-    function renderStars() {
+    function renderAmbient() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(s => {
-            s.y -= s.speed;
-            if (s.y < 0) s.y = canvas.height;
+        particles.forEach(p => {
+            p.y -= p.speedY;
+            p.x += p.speedX;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+
             ctx.beginPath();
-            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
             ctx.fill();
         });
-        requestAnimationFrame(renderStars);
+        requestAnimationFrame(renderAmbient);
     }
-    renderStars();
+    renderAmbient();
 
-    // ── 2. Interactive Spotlight Following Pointer ──
+    // ── 2. Interactive Spotlight Pointer Follow ──
     const spotlight = document.getElementById('glowSpotlight');
     window.addEventListener('pointermove', (e) => {
         spotlight.style.left = `${e.clientX}px`;
         spotlight.style.top = `${e.clientY}px`;
     });
 
-    // ── 3. Scroll Progress ──
-    const progressEl = document.getElementById('scrollProgress');
+    // ── 3. Scroll Progress Indicator ──
+    const scrollBar = document.getElementById('scrollProgress');
     window.addEventListener('scroll', () => {
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = (window.scrollY / totalHeight) * 100;
-        progressEl.style.width = `${progress}%`;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const current = (window.scrollY / total) * 100;
+        scrollBar.style.width = `${current}%`;
     });
 
-    // ── 4. Intro Curtain Unseal ──
-    const openBtn = document.getElementById('openEnvelopeBtn');
-    const introCurtain = document.getElementById('introCurtain');
-    
-    openBtn.addEventListener('click', () => {
-        introCurtain.classList.add('opened');
-        spawnBurst(window.innerWidth / 2, window.innerHeight / 2, 20);
-        setTimeout(startTypewriter, 600);
+    // ── 4. Wax Seal & Envelope Unseal Sequence ──
+    const envelopeCurtain = document.getElementById('envelopeCurtain');
+    const envelopeWrapper = document.getElementById('envelopeWrapper');
+
+    envelopeWrapper.addEventListener('click', (e) => {
+        envelopeCurtain.classList.add('unsealed');
+        spawnHearts(window.innerWidth / 2, window.innerHeight / 2, 25);
+        setTimeout(startTypewriter, 500);
     });
 
     // ── 5. Typewriter Effect ──
     function startTypewriter() {
-        const textTarget = document.getElementById('typewriterText');
-        const phrase = 'En Anbu Sharmila...';
+        const target = document.getElementById('typewriterTarget');
+        const text = 'En Anbu Sharmila...';
         let idx = 0;
-        textTarget.textContent = '';
-        
+        target.textContent = '';
+
         function step() {
-            if (idx < phrase.length) {
-                textTarget.textContent += phrase[idx];
+            if (idx < text.length) {
+                target.textContent += text[idx];
                 idx++;
                 setTimeout(step, 80);
             }
@@ -78,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         step();
     }
 
-    // ── 6. 3D Card Tilt on Hover / Touch ──
+    // ── 6. 3D Card Physics Tilt on Move ──
     const tiltCards = document.querySelectorAll('.interactive-tilt');
     tiltCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -92,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ── 7. Flip Cards Toggle (Mobile & Desktop) ──
+    // ── 7. Flip Cards Toggle ──
     const flipCards = document.querySelectorAll('.flip-card');
     flipCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -101,50 +107,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ── 8. ZERO Pulse Trigger ──
+    // ── 8. ZERO Pulse Reaction ──
     const zeroTrigger = document.getElementById('zeroTrigger');
     zeroTrigger.addEventListener('click', (e) => {
         zeroTrigger.style.transform = 'scale(1.4) rotate(-8deg)';
         setTimeout(() => zeroTrigger.style.transform = '', 300);
-        spawnBurst(e.clientX, e.clientY, 8);
+        spawnHearts(e.clientX, e.clientY, 8);
     });
 
-    // ── 9. Press & Hold for Hug (Timer Progress) ──
+    // ── 9. Hold to Hug Interaction ──
     const holdBtn = document.getElementById('holdHugBtn');
     const holdProgress = document.getElementById('holdProgress');
     const hugFeedback = document.getElementById('hugFeedback');
     const hugBtnText = document.getElementById('hugBtnText');
-    let holdTimer = null;
-    let progressVal = 0;
+    let timer = null;
+    let progress = 0;
 
     function startHold(e) {
-        progressVal = 0;
+        progress = 0;
         holdProgress.style.width = '0%';
-        holdTimer = setInterval(() => {
-            progressVal += 4;
-            holdProgress.style.width = `${progressVal}%`;
-            if (progressVal >= 100) {
-                clearInterval(holdTimer);
-                completeHug(e);
+        timer = setInterval(() => {
+            progress += 4;
+            holdProgress.style.width = `${progress}%`;
+            if (progress >= 100) {
+                clearInterval(timer);
+                finishHug(e);
             }
         }, 30);
     }
 
     function cancelHold() {
-        if (progressVal < 100) {
-            clearInterval(holdTimer);
+        if (progress < 100) {
+            clearInterval(timer);
             holdProgress.style.width = '0%';
         }
     }
 
-    function completeHug(e) {
+    function finishHug(e) {
         holdBtn.style.pointerEvents = 'none';
-        hugBtnText.textContent = 'Hug Sent!';
+        hugBtnText.textContent = 'Hug Sent With Love!';
         hugFeedback.style.display = 'block';
         const clientX = e.clientX || window.innerWidth / 2;
         const clientY = e.clientY || window.innerHeight / 2;
-        spawnBurst(clientX, clientY, 25);
-        if (navigator.vibrate) navigator.vibrate([40, 60, 100]);
+        spawnHearts(clientX, clientY, 28);
+        if (navigator.vibrate) navigator.vibrate([50, 70, 100]);
     }
 
     holdBtn.addEventListener('mousedown', startHold);
@@ -152,34 +158,34 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mouseup', cancelHold);
     window.addEventListener('touchend', cancelHold);
 
-    // ── 10. Tap to Send Love Meter ──
+    // ── 10. Tap to Send Love Hearts ──
     const tapLoveBtn = document.getElementById('tapLoveBtn');
     const meterFill = document.getElementById('meterFill');
     const loveCount = document.getElementById('loveCount');
-    let count = 0;
+    let loves = 0;
 
     tapLoveBtn.addEventListener('click', (e) => {
-        count++;
-        loveCount.textContent = count;
-        meterFill.style.width = `${Math.min(count * 5, 100)}%`;
-        spawnBurst(e.clientX, e.clientY, 3);
+        loves++;
+        loveCount.textContent = loves;
+        meterFill.style.width = `${Math.min(loves * 6, 100)}%`;
+        spawnHearts(e.clientX, e.clientY, 4);
         if (navigator.vibrate) navigator.vibrate(15);
     });
 
-    // ── 11. Floating SVG Heart Spawner ──
-    function spawnBurst(x, y, amount) {
+    // ── 11. Floating SVG Hearts Particle Burst ──
+    function spawnHearts(x, y, amount) {
         for (let i = 0; i < amount; i++) {
-            const svg = document.createElement('div');
-            svg.className = 'flying-heart-svg';
-            svg.innerHTML = `
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="#f43f5e">
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart-particle';
+            heart.innerHTML = `
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#f472b6">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>`;
-            svg.style.left = `${x}px`;
-            svg.style.top = `${y}px`;
-            svg.style.setProperty('--tx', `${(Math.random() - 0.5) * 120}px`);
-            document.body.appendChild(svg);
-            setTimeout(() => svg.remove(), 1200);
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            heart.style.setProperty('--tx', `${(Math.random() - 0.5) * 140}px`);
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1200);
         }
     }
 
