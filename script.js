@@ -1,10 +1,21 @@
+/* ==========================================================================
+   CINEMATIC ENGINE & PROCEDURAL SCRIPT
+   ========================================================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── 1. Soft Light Particles Canvas (Light Pink & Aqua Ambient) ──
-    const canvas = document.getElementById('ambientCanvas');
+    // ----------------------------------------------------------------------
+    // 1. DYNAMIC CANVAS COSMIC STARFIELD & FLOATING NEBULA PARTICLES
+    // ----------------------------------------------------------------------
+    const canvas = document.getElementById('cinemaCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    const colors = ['rgba(244, 114, 182, 0.4)', 'rgba(56, 189, 248, 0.4)', 'rgba(251, 207, 232, 0.3)'];
+    const particleColors = [
+        'rgba(244, 114, 182, 0.45)', // Pink
+        'rgba(56, 189, 248, 0.45)',  // Aqua
+        'rgba(251, 207, 232, 0.35)', // Light pink
+        'rgba(186, 230, 253, 0.35)'  // Light aqua
+    ];
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -13,194 +24,295 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    for (let i = 0; i < 50; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 2.5 + 1,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            speedY: Math.random() * 0.4 + 0.1,
-            speedX: (Math.random() - 0.5) * 0.2
-        });
+    class StarParticle {
+        constructor() {
+            this.reset();
+        }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.radius = Math.random() * 2.2 + 0.6;
+            this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
+            this.speedY = Math.random() * 0.4 + 0.1;
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            this.alpha = Math.random() * 0.8 + 0.2;
+            this.pulseSpeed = Math.random() * 0.02 + 0.005;
+        }
+        update() {
+            this.y -= this.speedY;
+            this.x += this.speedX;
+            this.alpha += Math.sin(Date.now() * this.pulseSpeed) * 0.01;
+
+            if (this.y < 0) this.y = canvas.height;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
     }
 
-    function renderAmbient() {
+    for (let i = 0; i < 90; i++) {
+        particles.push(new StarParticle());
+    }
+
+    function renderAtmosphere() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         particles.forEach(p => {
-            p.y -= p.speedY;
-            p.x += p.speedX;
-            if (p.y < 0) p.y = canvas.height;
-            if (p.x < 0) p.x = canvas.width;
-            if (p.x > canvas.width) p.x = 0;
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.fill();
+            p.update();
+            p.draw();
         });
-        requestAnimationFrame(renderAmbient);
+        requestAnimationFrame(renderAtmosphere);
     }
-    renderAmbient();
+    renderAtmosphere();
 
-    // ── 2. Interactive Spotlight Pointer Follow ──
-    const spotlight = document.getElementById('glowSpotlight');
+    // ----------------------------------------------------------------------
+    // 2. AMBIENT CURSOR SPOTLIGHT TRACKER
+    // ----------------------------------------------------------------------
+    const spotlight = document.getElementById('ambientSpotlight');
     window.addEventListener('pointermove', (e) => {
         spotlight.style.left = `${e.clientX}px`;
         spotlight.style.top = `${e.clientY}px`;
     });
 
-    // ── 3. Scroll Progress Indicator ──
-    const scrollBar = document.getElementById('scrollProgress');
-    window.addEventListener('scroll', () => {
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        const current = (window.scrollY / total) * 100;
-        scrollBar.style.width = `${current}%`;
-    });
+    // ----------------------------------------------------------------------
+    // 3. SKELETAL EYE TRACKING FOR AVATAR CHARACTERS (SAKTHI & SHARMILA)
+    // ----------------------------------------------------------------------
+    const sakthiHead = document.getElementById('sakthiHead');
+    const sharmilaHead = document.getElementById('sharmilaHead');
 
-    // ── 4. Wax Seal & Envelope Unseal Sequence ──
-    const envelopeCurtain = document.getElementById('envelopeCurtain');
-    const envelopeWrapper = document.getElementById('envelopeWrapper');
+    window.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
 
-    envelopeWrapper.addEventListener('click', (e) => {
-        envelopeCurtain.classList.add('unsealed');
-        spawnHearts(window.innerWidth / 2, window.innerHeight / 2, 25);
-        setTimeout(startTypewriter, 500);
-    });
-
-    // ── 5. Typewriter Effect ──
-    function startTypewriter() {
-        const target = document.getElementById('typewriterTarget');
-        const text = 'En Anbu Sharmila...';
-        let idx = 0;
-        target.textContent = '';
-
-        function step() {
-            if (idx < text.length) {
-                target.textContent += text[idx];
-                idx++;
-                setTimeout(step, 80);
-            }
+        // Boy eye tracking calculation
+        if (sakthiHead) {
+            const rect = sakthiHead.getBoundingClientRect();
+            const headCenterX = rect.left + rect.width / 2;
+            const headCenterY = rect.top + rect.height / 2;
+            const angle = Math.atan2(mouseY - headCenterY, mouseX - headCenterX);
+            const rotateDeg = (angle * 180 / Math.PI) / 8; // gentle rotation
+            sakthiHead.style.transform = `rotate(${Math.max(-15, Math.min(15, rotateDeg))}deg)`;
         }
-        step();
-    }
 
-    // ── 6. 3D Card Physics Tilt on Move ──
-    const tiltCards = document.querySelectorAll('.interactive-tilt');
-    tiltCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(800px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateY(-4px)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = '';
-        });
+        // Girl soft tilt
+        if (sharmilaHead) {
+            const rectG = sharmilaHead.getBoundingClientRect();
+            const headCenterX = rectG.left + rectG.width / 2;
+            const headCenterY = rectG.top + rectG.height / 2;
+            const angleG = Math.atan2(mouseY - headCenterY, mouseX - headCenterX);
+            const rotateDegG = (angleG * 180 / Math.PI) / 10;
+            sharmilaHead.style.transform = `rotate(${Math.max(-12, Math.min(12, rotateDegG))}deg)`;
+        }
     });
 
-    // ── 7. Flip Cards Toggle ──
-    const flipCards = document.querySelectorAll('.flip-card');
-    flipCards.forEach(card => {
-        card.addEventListener('click', () => {
-            card.classList.toggle('flipped');
-            if (navigator.vibrate) navigator.vibrate(20);
+    // ----------------------------------------------------------------------
+    // 4. ACT ROUTING & TIMELINE SCRUBBING ENGINE
+    // ----------------------------------------------------------------------
+    let currentAct = 0;
+    const totalActs = 5;
+    const scenes = document.querySelectorAll('.movie-scene');
+    const actPills = document.querySelectorAll('.act-pill');
+    const sceneNumDisplay = document.getElementById('sceneNumber');
+    const playhead = document.getElementById('scrubPlayhead');
+
+    window.goToAct = function(targetActIndex) {
+        if (targetActIndex < 0 || targetActIndex >= totalActs) return;
+
+        currentAct = targetActIndex;
+        scenes.forEach((scene, idx) => {
+            scene.classList.toggle('active', idx === currentAct);
         });
+
+        actPills.forEach((pill, idx) => {
+            pill.classList.toggle('active', idx === currentAct);
+        });
+
+        sceneNumDisplay.textContent = `0${currentAct + 1}`;
+        playhead.style.width = `${((currentAct + 1) / totalActs) * 100}%`;
+
+        if (navigator.vibrate) navigator.vibrate(20);
+    };
+
+    actPills.forEach((pill, idx) => {
+        pill.addEventListener('click', () => goToAct(idx));
     });
 
-    // ── 8. ZERO Pulse Reaction ──
-    const zeroTrigger = document.getElementById('zeroTrigger');
-    zeroTrigger.addEventListener('click', (e) => {
-        zeroTrigger.style.transform = 'scale(1.4) rotate(-8deg)';
-        setTimeout(() => zeroTrigger.style.transform = '', 300);
-        spawnHearts(e.clientX, e.clientY, 8);
+    document.getElementById('nextActBtn').addEventListener('click', () => {
+        goToAct((currentAct + 1) % totalActs);
     });
 
-    // ── 9. Hold to Hug Interaction ──
-    const holdBtn = document.getElementById('holdHugBtn');
-    const holdProgress = document.getElementById('holdProgress');
-    const hugFeedback = document.getElementById('hugFeedback');
-    const hugBtnText = document.getElementById('hugBtnText');
-    let timer = null;
-    let progress = 0;
+    document.getElementById('prevActBtn').addEventListener('click', () => {
+        goToAct((currentAct - 1 + totalActs) % totalActs);
+    });
 
-    function startHold(e) {
-        progress = 0;
-        holdProgress.style.width = '0%';
-        timer = setInterval(() => {
-            progress += 4;
-            holdProgress.style.width = `${progress}%`;
-            if (progress >= 100) {
-                clearInterval(timer);
-                finishHug(e);
+    // Scrubber click detection
+    const scrubTrack = document.getElementById('scrubTrack');
+    scrubTrack.addEventListener('click', (e) => {
+        const rect = scrubTrack.getBoundingClientRect();
+        const clickRatio = (e.clientX - rect.left) / rect.width;
+        const targetAct = Math.floor(clickRatio * totalActs);
+        goToAct(targetAct);
+    });
+
+    // ----------------------------------------------------------------------
+    // 5. INTERACTIVE ACT 2: COSMIC ZERO PORTAL (PHYSICS DRAG & ROTATION)
+    // ----------------------------------------------------------------------
+    const zeroPortal = document.getElementById('zeroPortal');
+    const digitalZero = document.getElementById('digitalZero');
+    let isDraggingZero = false;
+
+    if (zeroPortal) {
+        zeroPortal.addEventListener('mousedown', () => isDraggingZero = true);
+        window.addEventListener('mouseup', () => isDraggingZero = false);
+        window.addEventListener('mousemove', (e) => {
+            if (isDraggingZero) {
+                const rotX = (e.clientX / window.innerWidth - 0.5) * 40;
+                const rotY = (e.clientY / window.innerHeight - 0.5) * 40;
+                digitalZero.style.transform = `rotateX(${-rotY}deg) rotateY(${rotX}deg) scale(1.2)`;
+                spawnBurst(e.clientX, e.clientY, 1, '#f472b6');
             }
-        }, 30);
+        });
     }
 
-    function cancelHold() {
-        if (progress < 100) {
-            clearInterval(timer);
-            holdProgress.style.width = '0%';
+    // ----------------------------------------------------------------------
+    // 6. INTERACTIVE ACT 5: GRAND HUG GENERATOR (PRESS & HOLD FOR 3 SECONDS)
+    // ----------------------------------------------------------------------
+    const hugTrigger = document.getElementById('giantHugTrigger');
+    const hugFill = document.getElementById('hugFillProgress');
+    const hugText = document.getElementById('hugTriggerText');
+    let hugTimer = null;
+    let hugProgress = 0;
+
+    function startHugHold(e) {
+        hugProgress = 0;
+        hugFill.style.width = '0%';
+        hugText.textContent = 'Transmitting Love...';
+
+        hugTimer = setInterval(() => {
+            hugProgress += 3.5;
+            hugFill.style.width = `${hugProgress}%`;
+
+            if (hugProgress >= 100) {
+                clearInterval(hugTimer);
+                completeGrandHug(e);
+            }
+        }, 40);
+    }
+
+    function cancelHugHold() {
+        if (hugProgress < 100) {
+            clearInterval(hugTimer);
+            hugFill.style.width = '0%';
+            hugText.textContent = 'Press & Hold for Hug';
         }
     }
 
-    function finishHug(e) {
-        holdBtn.style.pointerEvents = 'none';
-        hugBtnText.textContent = 'Hug Sent With Love!';
-        hugFeedback.style.display = 'block';
-        const clientX = e.clientX || window.innerWidth / 2;
-        const clientY = e.clientY || window.innerHeight / 2;
-        spawnHearts(clientX, clientY, 28);
-        if (navigator.vibrate) navigator.vibrate([50, 70, 100]);
+    function completeGrandHug(e) {
+        hugTrigger.style.pointerEvents = 'none';
+        hugText.textContent = 'Hug Received With Love!';
+        const cx = e.clientX || window.innerWidth / 2;
+        const cy = e.clientY || window.innerHeight / 2;
+
+        for (let i = 0; i < 35; i++) {
+            setTimeout(() => {
+                spawnBurst(
+                    cx + (Math.random() - 0.5) * 100,
+                    cy + (Math.random() - 0.5) * 100,
+                    1,
+                    i % 2 === 0 ? '#f472b6' : '#38bdf8'
+                );
+            }, i * 35);
+        }
+
+        if (navigator.vibrate) navigator.vibrate([60, 80, 150]);
     }
 
-    holdBtn.addEventListener('mousedown', startHold);
-    holdBtn.addEventListener('touchstart', startHold, { passive: true });
-    window.addEventListener('mouseup', cancelHold);
-    window.addEventListener('touchend', cancelHold);
+    if (hugTrigger) {
+        hugTrigger.addEventListener('mousedown', startHugHold);
+        hugTrigger.addEventListener('touchstart', startHugHold, { passive: true });
+        window.addEventListener('mouseup', cancelHugHold);
+        window.addEventListener('touchend', cancelHugHold);
+    }
 
-    // ── 10. Tap to Send Love Hearts ──
-    const tapLoveBtn = document.getElementById('tapLoveBtn');
-    const meterFill = document.getElementById('meterFill');
-    const loveCount = document.getElementById('loveCount');
-    let loves = 0;
-
-    tapLoveBtn.addEventListener('click', (e) => {
-        loves++;
-        loveCount.textContent = loves;
-        meterFill.style.width = `${Math.min(loves * 6, 100)}%`;
-        spawnHearts(e.clientX, e.clientY, 4);
-        if (navigator.vibrate) navigator.vibrate(15);
-    });
-
-    // ── 11. Floating SVG Hearts Particle Burst ──
-    function spawnHearts(x, y, amount) {
-        for (let i = 0; i < amount; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart-particle';
-            heart.innerHTML = `
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="#f472b6">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+    // ----------------------------------------------------------------------
+    // 7. PROCEDURAL PARTICLE BURST GENERATOR (SVG HEARTS & STARS)
+    // ----------------------------------------------------------------------
+    function spawnBurst(x, y, count, color = '#f472b6') {
+        for (let i = 0; i < count; i++) {
+            const burst = document.createElement('div');
+            burst.className = 'canvas-heart-burst';
+            burst.innerHTML = `
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="${color}">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                 </svg>`;
-            heart.style.left = `${x}px`;
-            heart.style.top = `${y}px`;
-            heart.style.setProperty('--tx', `${(Math.random() - 0.5) * 140}px`);
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 1200);
+            burst.style.left = `${x}px`;
+            burst.style.top = `${y}px`;
+            burst.style.setProperty('--tx', `${(Math.random() - 0.5) * 200}px`);
+            burst.style.setProperty('--ty', `${(Math.random() - 1) * 180}px`);
+            document.body.appendChild(burst);
+            setTimeout(() => burst.remove(), 1400);
         }
     }
 
-    // ── 12. Floating Nav Smooth Scroll ──
-    const navButtons = document.querySelectorAll('.nav-btn');
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetId = btn.dataset.target;
-            const el = document.getElementById(targetId);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-                navButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
-        });
+    // ----------------------------------------------------------------------
+    // 8. SYNTHESIZER AUDIO DRIVER (WEB AUDIO API CHORD ARPEGGIATOR)
+    // ----------------------------------------------------------------------
+    const synthBtn = document.getElementById('synthAudioBtn');
+    let audioCtx = null;
+    let isPlayingAudio = false;
+    let noteInterval = null;
+
+    const chords = [
+        [261.63, 329.63, 392.00, 523.25], // C Major
+        [220.00, 261.63, 329.63, 440.00], // A Minor
+        [174.61, 220.00, 261.63, 349.23], // F Major
+        [196.00, 246.94, 293.66, 392.00]  // G Major
+    ];
+
+    function playCalmTone(freq) {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.5);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 2.6);
+    }
+
+    synthBtn.addEventListener('click', () => {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        isPlayingAudio = !isPlayingAudio;
+        synthBtn.style.color = isPlayingAudio ? 'var(--pink-accent)' : 'var(--text-soft)';
+
+        if (isPlayingAudio) {
+            let chordIdx = 0;
+            let noteIdx = 0;
+            noteInterval = setInterval(() => {
+                const currentChord = chords[chordIdx];
+                playCalmTone(currentChord[noteIdx]);
+                noteIdx++;
+                if (noteIdx >= currentChord.length) {
+                    noteIdx = 0;
+                    chordIdx = (chordIdx + 1) % chords.length;
+                }
+            }, 600);
+        } else {
+            if (noteInterval) clearInterval(noteInterval);
+        }
     });
 
 });
